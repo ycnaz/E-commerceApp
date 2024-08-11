@@ -1,8 +1,9 @@
 <script setup>
+import { defineAsyncComponent } from 'vue';
+
+const HomeHeader = defineAsyncComponent(() => import('../components/HomeHeader.vue'))
 </script>
 
 <template>
-  <main class="bg-red-500">
-    Yo
-  </main>
+  <HomeHeader />
 </template>
