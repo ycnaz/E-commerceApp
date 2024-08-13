@@ -2,6 +2,13 @@
 import { defineAsyncComponent } from 'vue';
 
 const ChevronDown = defineAsyncComponent(() => import('../assets/svg/chevron-down.svg'))
+
+const scrollDown = () => {
+    window.scrollTo({
+        top: 600,
+        behavior: 'smooth'
+    });
+}
 </script>
 
 <template>
@@ -11,7 +18,7 @@ const ChevronDown = defineAsyncComponent(() => import('../assets/svg/chevron-dow
             <span class="text-xl">And buy the best products from all over the world</span>
         </div>
         <img loading="lazy" src="../assets/images/shoe-bg.png">
-        <ChevronDown class="size-12 shadow-xl bg-white rounded-full p-2 absolute cursor-pointer -bottom-6 left-1/2 -translate-x-1/2"/>
+        <ChevronDown @click="scrollDown" class="size-12 shadow-xl bg-white rounded-full p-2 absolute cursor-pointer -bottom-6 left-1/2 -translate-x-1/2"/>
     </section>
 </template>
 

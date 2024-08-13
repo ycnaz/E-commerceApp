@@ -9,6 +9,7 @@
   <header class="w-full h-20 text-white absolute z-50">
     <nav class="flex h-full justify-around items-center">
       <strong class="text-5xl cursor-pointer">YCN</strong>
+      <input class="text-black">
       <div class="flex h-full relative">
         <div class="group flex items-center justify-center hover:bg-rose-400 w-28 h-full relative transition-all duration-300 cursor-pointer">
           <div class="max-w-max relative">
@@ -22,12 +23,12 @@
         </div>
         <div class="group flex items-center justify-center hover:bg-rose-400 w-28 h-full relative transition-all duration-300 cursor-pointer">
           <div class="max-w-max relative">
-            <RouterLink to="/" class="before:absolute before:bottom-0 before:left-1/2 before:w-0 before:h-[2px] before:bg-white before:-translate-x-1/2 group-hover:before:w-full before:transition-all before:duration-300">Men's</RouterLink>
+            <RouterLink to="/" class="before:absolute before:bottom-0 before:left-1/2 before:w-0 before:h-[2px] before:bg-white before:-translate-x-1/2 group-hover:before:w-full before:transition-all before:duration-300">Products</RouterLink>
           </div>
         </div>
         <div class="group flex items-center justify-center hover:bg-rose-400 w-28 h-full relative transition-all duration-300 cursor-pointer">
           <div class="max-w-max relative">
-            <RouterLink to="/" class="before:absolute before:bottom-0 before:left-1/2 before:w-0 before:h-[2px] before:bg-white before:-translate-x-1/2 group-hover:before:w-full before:transition-all before:duration-300">Women's</RouterLink>
+            <RouterLink to="/" class="before:absolute before:bottom-0 before:left-1/2 before:w-0 before:h-[2px] before:bg-white before:-translate-x-1/2 group-hover:before:w-full before:transition-all before:duration-300">Categories</RouterLink>
           </div>
         </div>
       </div>
@@ -38,6 +39,3 @@
     <RouterView />
   </main>
 </template>
-
-<style scoped>
-</style>
