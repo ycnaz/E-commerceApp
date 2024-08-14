@@ -18,7 +18,9 @@ export function createFetchStore(storeName, endpoint) {
             } catch (err) {
                 error.value = err;
             } finally {
-                loading.value = false;
+                setTimeout(() => {
+                    loading.value = false;
+                }, 3000)
             }
         }
 
