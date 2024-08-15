@@ -18,10 +18,13 @@ const props = defineProps({
 
 <template>
     <div class="h-[500px]">
-        <figure class="w-full h-96 flex flex-col items-center">
-            <div class="flex flex-col gap-y-5 min-w-[70%]">
-                <figcaption class="self-start text-3xl font-medium">{{ props.title }}</figcaption>
-                <ul v-if="!props.loading" class="flex gap-x-5">
+        <figure class="w-full h-full flex flex-col items-center">
+            <div class="flex flex-col gap-y-5 min-w-[74%] h-full">
+                <div class="flex">
+                    <figcaption class="self-start text-3xl font-medium">{{ props.title }}</figcaption>
+                    <button class="underline ml-auto place-self-end cursor-pointer hover:text-gray-500 focus:text-gray-500 focus:outline-none">See all</button>
+                </div>
+                <ul v-if="!props.loading && props.data.length != 0" class="flex gap-x-5 justify-center">
                     <li v-for="item in props.data.slice(0, props.slicer)" :key="item.id" class="w-min min-h-96 bg-gray-100 p-5 flex flex-col items-center rounded-3xl shadow-lg text-black">
                         <h1 class="font-normal text-center line-clamp-2 mb-5">{{ item.title.toUpperCase() }}</h1>
                         <div class="size-64 bg-white rounded-full flex justify-center items-center shadow-lg mt-auto relative">
@@ -31,8 +34,10 @@ const props = defineProps({
                         <button class="bg-gray-800 text-white w-24 h-10 rounded-3xl font-light mt-5 shadow-lg hover:ring hover:ring-gray-800 hover:ring-offset-2 hover:ring-offset-gray-200 focus:ring focus:ring-gray-800 focus:ring-offset-2 focus:ring-offset-gray-200 active:ring active:ring-gray-800 active:ring-offset-2 active:ring-offset-gray-200 transition-all">BUY</button>
                     </li>
                 </ul>
-                <span v-else-if="props.loading" class="loading loading-spinner text-rose-500 size-24 self-center"></span>
-                <div v-else></div>
+                <span v-else-if="props.loading" class="loading loading-spinner text-rose-500 size-24 self-center my-auto mx-0"></span>
+                <div v-else-if="props.data.length == 0" class="w-full h-full bg-rose-500 flex justify-center items-center">
+                    <span>No items returned by API.</span> <!-- Fake store API returns an empty array if the request is sent to a wrong URL -->
+                </div>
             </div>
         </figure>
     </div>

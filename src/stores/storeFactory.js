@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import { ref } from "vue"
-import { fetcher } from "@/api/apiService"
+import { fetcher } from "@/api/storeApi"
 
 // To eliminate code redundancy I created a function that creates dynamic stores
 export function createFetchStore(storeName, endpoint) {

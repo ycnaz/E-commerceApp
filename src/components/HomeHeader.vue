@@ -18,7 +18,9 @@ const scrollDown = () => {
             <span class="text-xl">And buy the best products from all over the world</span>
         </div>
         <img loading="lazy" src="../assets/images/shoe-bg.png">
-        <ChevronDown @click="scrollDown" class="size-12 shadow-xl bg-white rounded-full p-2 absolute cursor-pointer -bottom-6 left-1/2 -translate-x-1/2"/>
+        <button class="group">
+            <ChevronDown @click="scrollDown" class="size-12 shadow-xl bg-white rounded-full p-2 absolute cursor-pointer group-hover:scale-110 group-focus:scale-110 -bottom-6 left-1/2 -translate-x-1/2 transition-all"/>
+        </button>
     </section>
 </template>
 
