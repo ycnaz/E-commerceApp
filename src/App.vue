@@ -1,6 +1,6 @@
 <script setup>
   import { RouterView, RouterLink } from 'vue-router'
-  import { defineAsyncComponent, onMounted } from 'vue';
+  import { defineAsyncComponent, ref, watch } from 'vue';
   import { useToast } from 'vue-toastification';
   import { useExchangeStore } from './stores/exchangeStore';
 
@@ -14,7 +14,9 @@
     toast.warning('Footer links not implemented')
   }
 
-  onMounted(() => exchangeStore.fetchHandler('currencies'))
+  const selectedCurrency = ref('')
+
+  watch(selectedCurrency, (newCurrency) => exchangeStore.userPref = newCurrency)
 </script>
 
 <template>
@@ -46,9 +48,9 @@
             <span class="focus:outline-none before:absolute before:bottom-0 before:left-1/2 before:w-0 before:h-[2px] before:bg-white before:-translate-x-1/2 group-hover:before:w-full group-focus:before:w-full group-active:before:w-full before:transition-all before:duration-300">Categories</span>
           </div>
         </RouterLink>
-        <select class="bg-rose-500">
-          <option>Currency</option>
-          <option v-for="(name, code) in exchangeStore.currencies" :key="code">{{ code }}</option>
+        <select v-model="selectedCurrency" aria-label="Select Currency" class="bg-rose-500 border-none px-1 hover:bg-rose-600 focus:bg-rose-600 focus:outline-none focus:ring-0 transition-all duration-300 cursor-pointer relative">
+          <option value="" disabled selected>Currency</option>
+          <option v-for="(name, code) in exchangeStore.currencies" :key="code" :value="code">{{ code }}</option>
         </select>
       </div>
       <RouterLink to="/" class="rounded-full hover:bg-rose-400 transition-all duration-300 focus:outline-none focus:bg-rose-400 active:bg-rose-400">

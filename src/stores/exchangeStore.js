@@ -1,11 +1,11 @@
 import { defineStore } from "pinia";
-import { ref, watchEffect } from "vue";
+import { ref } from "vue";
 import { fetcher } from "@/api/exchangeApi"
 
 export const useExchangeStore = defineStore('exchangeStore', () => {
     const latest = ref([])
     const currencies = ref([])
-    watchEffect(() => console.log(currencies.value))
+    const userPref = ref('')
     const loading = ref(false)
     const error = ref(null)
 
@@ -29,7 +29,10 @@ export const useExchangeStore = defineStore('exchangeStore', () => {
         }
     }
 
-    return { latest, currencies, loading, error, fetchHandler }
+    fetchHandler('latest')
+    fetchHandler('currencies')
+
+    return { latest, currencies, userPref, loading, error, fetchHandler }
 })
 
 // /currencies.json
