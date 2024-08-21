@@ -12,16 +12,9 @@ const props = defineProps({
         type: String,
         required: true
     },
-    slicer: String
 })
 
-import { useExchangeStore } from '@/stores/exchangeStore';
-
-const exchangeStore = useExchangeStore()
-
-const changePrices = (price) => {
-    return Math.round(price * exchangeStore.latest.rates[exchangeStore.userPref])
-}
+import ItemCard from './ItemCard.vue';
 </script>
 
 <template>
@@ -33,14 +26,7 @@ const changePrices = (price) => {
                     <button class="underline ml-auto place-self-end cursor-pointer hover:text-gray-500 focus:text-gray-500 focus:outline-none">See all</button>
                 </div>
                 <ul v-if="!props.loading && props.data.length != 0" class="flex gap-x-5 justify-center">
-                    <li v-for="item in props.data.slice(0, props.slicer)" :key="item.id" class="w-min min-h-96 bg-gray-100 p-5 flex flex-col items-center rounded-3xl shadow-lg text-black">
-                        <h1 class="font-normal text-center line-clamp-2 mb-5">{{ item.title.toUpperCase() }}</h1>
-                        <div class="size-64 bg-white rounded-full flex justify-center items-center shadow-lg mt-auto relative">
-                            <img loading="lazy" alt="Product Image" :src="item.image" class="size-44 object-contain">
-                            <strong class="text-2xl font-normal mt-auto bg-rose-500 w-48 shadow-lg text-center text-white absolute bottom-0">{{ exchangeStore.userPref ? changePrices(item.price) : Math.round(item.price) }}/{{ exchangeStore.userPref ? exchangeStore.userPref : 'USD' }}</strong>
-                        </div>
-                        <button class="bg-gray-800 text-white w-24 h-10 rounded-3xl font-light mt-5 shadow-lg hover:ring hover:ring-gray-800 hover:ring-offset-2 hover:ring-offset-gray-200 focus:ring focus:ring-gray-800 focus:ring-offset-2 focus:ring-offset-gray-200 active:ring active:ring-gray-800 active:ring-offset-2 active:ring-offset-gray-200 transition-all">BUY</button>
-                    </li>
+                    <ItemCard v-for="item in props.data.slice(0, 4)" :key="item.id" :item />
                 </ul>
                 <span v-else-if="props.loading" class="loading loading-spinner text-rose-500 size-24 self-center my-auto mx-0"></span>
                 <div v-else-if="props.data.length == 0" class="w-full h-full bg-rose-500 flex justify-center items-center">

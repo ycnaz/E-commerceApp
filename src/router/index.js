@@ -9,6 +9,11 @@ const router = createRouter({
       name: 'home',
       component: HomeView
     },
+    {
+      path: '/products',
+      name: 'products',
+      component: () => import('../views/ProductsView.vue')
+    }
   ],
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) return savedPosition;

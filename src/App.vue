@@ -10,6 +10,13 @@
   const toast = useToast()
   const exchangeStore = useExchangeStore()
 
+  const navLinks = ref([
+    {id: 1, name: 'Home', url: '/'},
+    {id: 2, name: 'About', url: '/about'},
+    {id: 3, name: 'Products', url: '/products'},
+    {id: 4, name: 'Categories', url: '/categories'},
+  ])
+
   const footerToast = () => {
     toast.warning('Footer links not implemented')
   }
@@ -20,7 +27,7 @@
 </script>
 
 <template>
-  <header class="w-full h-20 text-white absolute z-50">
+  <header class="w-full h-20 text-white z-50 bg-rose-500 shrink-0">
     <nav class="flex h-full justify-around items-center">
       <strong class="text-5xl cursor-pointer">YCN</strong>
       <div class="flex">
@@ -28,27 +35,12 @@
         <MagnifyingComp class="size-12 p-3 bg-gray-100 rounded-se-3xl rounded-ee-3xl cursor-pointer"/>
       </div>
       <div class="flex h-full relative">
-        <RouterLink to="/" class="group flex items-center justify-center hover:bg-rose-400 focus:outline-none w-28 h-full relative transition-all duration-300 cursor-pointer">
+        <RouterLink v-for="link in navLinks" active-class="active" :key="link.id" :to="link.url" class="group flex items-center justify-center hover:bg-rose-400 focus:outline-none w-28 h-full relative transition-all duration-300 cursor-pointer">
           <div class="max-w-max relative">
-            <span class="focus:outline-none before:absolute before:bottom-0 before:left-1/2 before:w-0 before:h-[2px] before:bg-white before:-translate-x-1/2 group-hover:before:w-full group-focus:before:w-full group-active:before:w-full before:transition-all before:duration-300">Home</span>
+            <span class="focus:outline-none before:absolute before:bottom-0 before:left-1/2 before:w-0 before:h-[2px] before:bg-white before:-translate-x-1/2 group-hover:before:w-full group-focus:before:w-full group-active:before:w-full before:transition-all before:duration-300">{{ link.name }}</span>
           </div>
         </RouterLink>
-        <RouterLink to="/" class="group flex items-center justify-center hover:bg-rose-400 focus:outline-none w-28 h-full relative transition-all duration-300 cursor-pointer">
-          <div class="max-w-max relative">
-            <span class="focus:outline-none before:absolute before:bottom-0 before:left-1/2 before:w-0 before:h-[2px] before:bg-white before:-translate-x-1/2 group-hover:before:w-full group-focus:before:w-full group-active:before:w-full before:transition-all before:duration-300">About</span>
-          </div>
-        </RouterLink>
-        <RouterLink to="/" class="group flex items-center justify-center hover:bg-rose-400 focus:outline-none w-28 h-full relative transition-all duration-300 cursor-pointer">
-          <div class="max-w-max relative">
-            <span class="focus:outline-none before:absolute before:bottom-0 before:left-1/2 before:w-0 before:h-[2px] before:bg-white before:-translate-x-1/2 group-hover:before:w-full group-focus:before:w-full group-active:before:w-full before:transition-all before:duration-300">Products</span>
-          </div>
-        </RouterLink>
-        <RouterLink to="/" class="group flex items-center justify-center hover:bg-rose-400 focus:outline-none w-28 h-full relative transition-all duration-300 cursor-pointer">
-          <div class="max-w-max relative">
-            <span class="focus:outline-none before:absolute before:bottom-0 before:left-1/2 before:w-0 before:h-[2px] before:bg-white before:-translate-x-1/2 group-hover:before:w-full group-focus:before:w-full group-active:before:w-full before:transition-all before:duration-300">Categories</span>
-          </div>
-        </RouterLink>
-        <select v-model="selectedCurrency" aria-label="Select Currency" class="bg-rose-500 border-none px-1 hover:bg-rose-600 focus:bg-rose-600 focus:outline-none focus:ring-0 transition-all duration-300 cursor-pointer relative">
+        <select v-model="selectedCurrency" aria-label="Select Currency" class="bg-rose-500 border-none hover:bg-rose-600 focus:bg-rose-600 focus:outline-none focus:ring-0 transition-all duration-300 cursor-pointer relative">
           <option value="" disabled selected>Currency</option>
           <option v-for="(name, code) in exchangeStore.currencies" :key="code" :value="code">{{ code }}</option>
         </select>
@@ -63,7 +55,7 @@
     <RouterView />
   </main>
 
-  <footer class="w-full h-64 bg-gray-300 flex items-center">
+  <footer class="w-full h-64 bg-gray-300 flex items-center mt-auto shrink-0">
     <div class="w-full flex justify-evenly">
       <nav @click="footerToast" class="flex flex-col">
         <h6>BUY</h6>
@@ -112,5 +104,9 @@ nav > h6 {
 
 nav > span {
   @apply cursor-pointer place-self-start text-gray-500
+}
+
+.active span::before {
+  @apply w-full
 }
 </style>

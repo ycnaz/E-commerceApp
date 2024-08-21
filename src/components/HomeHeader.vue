@@ -12,7 +12,7 @@ const scrollDown = () => {
 </script>
 
 <template>
-    <section class="bg-rose-500 h-[600px] w-full pt-20 relative flex justify-center">
+    <section class="bg-rose-500 h-[600px] w-full relative flex justify-center">
         <div class="text-white w-1/2 h-full flex flex-col justify-center">
             <strong class="text-6xl text-white">Present your products<br> to millions</strong>
             <span class="text-xl">And buy the best products from all over the world</span>
