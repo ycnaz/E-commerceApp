@@ -8,19 +8,23 @@ export function createFetchStore(storeName, endpoint) {
         const items = ref([])
         const loading = ref(false)
         const error = ref(null)
+        const isDataFetched = ref(false)
 
         const fetchAll = async () => {
-            loading.value = true;
-            error.value = null;
-
-            try {
-                items.value = await fetcher(endpoint, 'get');
-            } catch (err) {
-                error.value = err;
-            } finally {
-                setTimeout(() => {
-                    loading.value = false;
-                }, 3000)
+            if (!isDataFetched.value) {
+                loading.value = true;
+                error.value = null;
+    
+                try {
+                    items.value = await fetcher(endpoint, 'get');
+                    isDataFetched.value = true
+                } catch (err) {
+                    error.value = err;
+                } finally {
+                    setTimeout(() => {
+                        loading.value = false;
+                    }, 3000)
+                }
             }
         }
 

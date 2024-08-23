@@ -5,7 +5,7 @@ const ChevronDown = defineAsyncComponent(() => import('../assets/svg/chevron-dow
 
 const scrollDown = () => {
     window.scrollTo({
-        top: 600,
+        top: 680,
         behavior: 'smooth'
     });
 }

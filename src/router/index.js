@@ -10,9 +10,16 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/products',
+      path: '/products/:category?',
       name: 'products',
-      component: () => import('../views/ProductsView.vue')
+      component: () => import('../views/ProductsView.vue'),
+      props: route => ({ category: route.params.category })
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'notFound',
+      component: () => import('../components/NotFound.vue'),
+      props: route => ({ endpoint: route.params.pathMatch})
     }
   ],
   scrollBehavior(to, from, savedPosition) {
