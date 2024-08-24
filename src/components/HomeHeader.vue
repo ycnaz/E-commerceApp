@@ -1,5 +1,5 @@
 <script setup>
-import { defineAsyncComponent } from 'vue';
+import { defineAsyncComponent, ref } from 'vue';
 
 const ChevronDown = defineAsyncComponent(() => import('../assets/svg/chevron-down.svg'))
 
@@ -9,6 +9,8 @@ const scrollDown = () => {
         behavior: 'smooth'
     });
 }
+
+const isImgLoading = ref(true)
 </script>
 
 <template>
@@ -17,7 +19,8 @@ const scrollDown = () => {
             <strong class="text-6xl text-white">Present your products<br> to millions</strong>
             <span class="text-xl">And buy the best products from all over the world</span>
         </div>
-        <img loading="lazy" src="../assets/images/shoe-bg.png">
+        <img :class="{'opacity-0 absolute': isImgLoading, 'opacity-100': !isImgLoading}" @load="isImgLoading = false" loading="lazy" alt="Header Image" src="../assets/images/shoe-bg.png">
+        <span v-if="isImgLoading" class="loading loading-spinner text-black"></span>
         <button class="group">
             <ChevronDown @click="scrollDown" class="size-12 shadow-xl bg-white rounded-full p-2 absolute cursor-pointer group-hover:scale-110 group-focus:scale-110 -bottom-6 left-1/2 -translate-x-1/2 transition-all"/>
         </button>

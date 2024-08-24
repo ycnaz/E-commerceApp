@@ -23,7 +23,7 @@ export function createFetchStore(storeName, endpoint) {
                 } finally {
                     setTimeout(() => {
                         loading.value = false;
-                    }, 3000)
+                    }, 1000)
                 }
             }
         }
