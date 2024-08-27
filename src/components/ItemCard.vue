@@ -19,7 +19,6 @@ const imgIsLoading = ref(true)
 
 const handleImageLoad = () => {
     imgIsLoading.value = false
-    console.log('yo we loaded')
 }
 </script>
 

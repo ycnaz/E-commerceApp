@@ -12,8 +12,12 @@ const props = defineProps({
         type: String,
         required: true
     },
+    category: {
+        required: true
+    },
 })
 
+import { RouterLink } from 'vue-router';
 import ItemCard from './ItemCard.vue';
 </script>
 
@@ -23,7 +27,7 @@ import ItemCard from './ItemCard.vue';
             <div class="flex flex-col gap-y-5 min-w-[74%] h-full">
                 <div class="flex">
                     <figcaption class="self-start text-3xl font-medium">{{ props.title }}</figcaption>
-                    <button class="underline ml-auto place-self-end cursor-pointer hover:text-gray-500 focus:text-gray-500 focus:outline-none">See all</button>
+                    <RouterLink :to="{ name: 'products', params: { category: props.category }}" class="underline ml-auto place-self-end cursor-pointer hover:text-gray-500 focus:text-gray-500 focus:outline-none">See all</RouterLink>
                 </div>
                 <ul v-if="!props.loading && props.data.length != 0" class="flex gap-x-5 justify-center">
                     <ItemCard v-for="item in props.data.slice(0, 4)" :key="item.id" :item />

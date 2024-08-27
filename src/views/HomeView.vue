@@ -15,13 +15,14 @@ onMounted(() => {
     menStore.fetchAll()
     womenStore.fetchAll()
 })
+
 </script>
 
 <template>
   <HomeHeader />
   <div class="my-24">
-    <HomeLister class="flex justify-center items-center" :loading="menStore.loading" :data="menStore.items" title="Men's Clothing" slicer="4"/>
-    <HomeLister class="flex justify-center items-center" :loading="womenStore.loading" :data="womenStore.items" title="Women's Clothing" slicer="4"/>
+    <HomeLister class="flex justify-center items-center" :loading="menStore.loading" :data="menStore.items" category="men's clothing" title="Men's Clothing" slicer="4"/>
+    <HomeLister class="flex justify-center items-center" :loading="womenStore.loading" :data="womenStore.items" category="women's clothing" title="Women's Clothing" slicer="4"/>
   </div>
   <HomeDiscount />
 </template>

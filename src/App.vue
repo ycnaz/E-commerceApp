@@ -1,5 +1,5 @@
 <script setup>
-  import { RouterView, RouterLink } from 'vue-router'
+  import { RouterView, RouterLink, useRouter, useRoute } from 'vue-router'
   import { defineAsyncComponent, onMounted, ref } from 'vue';
   import { useToast } from 'vue-toastification';
   import { useExchangeStore } from './stores/exchangeStore';
@@ -26,6 +26,21 @@
     exchangeStore.userPref = curr
   }
 
+  const router = useRouter()
+  const route = useRoute()
+
+  const navigate = (category) => {
+    router.push({ name: 'products', params: { category }})
+  }
+
+  const isActive = (url) => {
+    if (url != '/') {
+      return route.path.startsWith(url)
+    } else {
+      return route.path == '/'
+    }
+  }
+
   onMounted(() => categoryStore.fetchAll())
 </script>
 
@@ -42,7 +57,7 @@
 
       <div class="flex h-full relative">
 
-        <RouterLink v-for="link in navLinks" active-class="active" :key="link.id" :to="link.url" class="group flex items-center justify-center hover:bg-rose-400 focus:outline-none w-28 h-full relative transition-all duration-300 cursor-pointer">
+        <RouterLink v-for="link in navLinks" :class="{ 'active': isActive(link.url) }" :key="link.id" :to="link.url" class="group flex items-center justify-center hover:bg-rose-400 focus:outline-none w-28 h-full relative transition-all duration-300 cursor-pointer">
           <div class="max-w-max relative">
             <span class="focus:outline-none before:absolute before:bottom-0 before:left-1/2 before:w-0 before:h-[2px] before:bg-white before:-translate-x-1/2 group-hover:before:w-full group-focus:before:w-full group-active:before:w-full before:transition-all before:duration-300">{{ link.name }}</span>
           </div>
@@ -54,7 +69,7 @@
           <section class="flex flex-col items-center custom-shadow absolute top-24 right-0 p-3 rounded-md cursor-default gap-y-1 bg-white text-black size-fit min-w-40 scale-0 group-focus:scale-100 transition-all origin-top-right">
             <h3 class="underline text-xl text-rose-500 text-start">Categories</h3>
             <div class="flex flex-col items-center flex-wrap h-full">
-              <RouterLink v-for="item in categoryStore.items" :key="item" :to="`/products/${item}`" class="max-w-max cursor-pointer text-gray-500">{{ item }}</RouterLink>
+              <span v-for="item in categoryStore.items" :key="item" @click="navigate(item)" class="max-w-max cursor-pointer text-gray-500">{{ item.charAt(0).toUpperCase() + item.slice(1) }}</span>
             </div>
           </section>
         </button>
