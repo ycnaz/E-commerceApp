@@ -57,7 +57,7 @@
 
       <div class="flex h-full relative">
 
-        <RouterLink v-for="link in navLinks" :class="{ 'active': isActive(link.url) }" :key="link.id" :to="link.url" class="group flex items-center justify-center hover:bg-rose-400 focus:outline-none w-28 h-full relative transition-all duration-300 cursor-pointer">
+        <RouterLink v-for="link in navLinks" :class="{ 'active': isActive(link.url) }" :key="link.id" :to="link.url" class="group flex items-center justify-center hover:bg-rose-400 focus:outline-none w-28 h-full relative transition-all duration-300">
           <div class="max-w-max relative">
             <span class="focus:outline-none before:absolute before:bottom-0 before:left-1/2 before:w-0 before:h-[2px] before:bg-white before:-translate-x-1/2 group-hover:before:w-full group-focus:before:w-full group-active:before:w-full before:transition-all before:duration-300">{{ link.name }}</span>
           </div>
@@ -86,9 +86,13 @@
         </button>
 
       </div>
-
+      
       <RouterLink to="/" class="rounded-full hover:bg-rose-400 transition-all duration-300 focus:outline-none focus:bg-rose-400 active:bg-rose-400">
         <CartComp class="size-12 p-2 rounded-full cursor-pointer" />
+      </RouterLink>
+
+      <RouterLink :to="{ name: 'sign-in' }" class="rounded px-3 py-2 hover:bg-rose-400 focus:bg-rose-600 focus:outline-none transition-all duration-300">
+        Sign in
       </RouterLink>
 
     </nav>

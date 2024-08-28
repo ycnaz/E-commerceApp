@@ -20,6 +20,23 @@ const router = createRouter({
       name: 'notFound',
       component: () => import('../components/NotFound.vue'),
       props: route => ({ endpoint: route.params.pathMatch}),
+    },
+    {
+      path: '/auth',
+      name: 'auth',
+      component: () => import('../views/AuthView.vue'),
+      children: [
+        {
+          path: 'sign-in',
+          name: 'sign-in',
+          component: () => import('../components/SignIn.vue'),
+        },
+        {
+          path: 'register',
+          name: 'register',
+          component: () => import('../components/RegisterComp.vue'),
+        }
+      ]
     }
   ],
   scrollBehavior(to, from, savedPosition) {
