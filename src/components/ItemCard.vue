@@ -23,7 +23,7 @@ const handleImageLoad = () => {
 </script>
 
 <template>
-    <li class="w-min min-h-96 bg-gray-100 p-5 flex flex-col items-center rounded-3xl shadow-lg text-black">
+    <li class="w-auto min-h-96 bg-gray-100 p-5 flex flex-col items-center rounded-3xl shadow-lg text-black">
         <h1 class="font-normal text-center line-clamp-2 mb-5">{{ props.item.title.toUpperCase() }}</h1>
         <div class="size-64 bg-white rounded-full flex justify-center items-center shadow-lg mt-auto relative">
             <img :class="{'opacity-0 absolute': imgIsLoading, 'opacity-100': !imgIsLoading}" @load="handleImageLoad" loading="lazy" alt="Product Image" :src="props.item.image" class="size-44 object-contain">

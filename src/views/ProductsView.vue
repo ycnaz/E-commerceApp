@@ -24,7 +24,7 @@ onMounted(() => productStore.fetchAll())
 <template>
     <figure class="pb-24 pt-10 px-5 flex flex-col">
         <figcaption class="text-5xl pl-10 mb-5">{{ props.category.charAt(0).toUpperCase() + props.category.slice(1) }}</figcaption>
-        <ul v-if="filteredItems.length !== 0 && !productStore.loading" class="flex flex-wrap gap-5 justify-center">
+        <ul v-if="filteredItems.length !== 0 && !productStore.loading" class="grid grid-cols-[repeat(auto-fit,_minmax(288px,_1fr))] gap-5">
             <ItemCard v-for="item in filteredItems" :key="item.id" :item />
         </ul>
         <span v-else-if="productStore.loading" class="loading loading-spinner text-rose-500 size-24 self-center my-auto mx-0"></span>
