@@ -4,6 +4,10 @@
   import { useToast } from 'vue-toastification';
   import { useExchangeStore } from './stores/exchangeStore';
   import { useCategoryStore } from './stores/categoryStore';
+  import { useUserAuthStore } from './stores/userAuthStore';
+  import { useProgressStore } from './stores/progressStore';
+  import { useUserStore } from './stores/userStore';
+  import ProgressBar from './components/ProgressBar.vue';
 
   const CartComp = defineAsyncComponent(() => import('./assets/svg/cart.svg'))
   const MagnifyingComp = defineAsyncComponent(() => import('./assets/svg/magnifying.svg'))
@@ -12,6 +16,9 @@
   const toast = useToast()
   const exchangeStore = useExchangeStore()
   const categoryStore = useCategoryStore()
+  const userAuthStore = useUserAuthStore()
+  const progressStore = useProgressStore()
+  const users = useUserStore()
 
   const navLinks = ref([
     {id: 1, name: 'Home', url: '/'},
@@ -41,11 +48,20 @@
     }
   }
 
-  onMounted(() => categoryStore.fetchAll())
+  const fetchUsers = async () => {
+    await users.fetchAll()
+    userAuthStore.fetchUserId(users.items)
+  }
+
+  onMounted(() => {
+    categoryStore.fetchAll()
+    fetchUsers()
+  })
 </script>
 
 <template>
   <header class="w-full h-20 text-white z-50 bg-rose-500 shrink-0">
+    <ProgressBar :loading="progressStore.loading" />
     <nav class="flex h-full justify-around items-center">
 
       <strong class="text-5xl cursor-pointer">YCN</strong>
@@ -87,14 +103,13 @@
 
       </div>
       
-      <RouterLink to="/" class="rounded-full hover:bg-rose-400 transition-all duration-300 focus:outline-none focus:bg-rose-400 active:bg-rose-400">
+      <RouterLink :to="{ name: 'user' }" class="rounded-full hover:bg-rose-400 transition-all duration-300 focus:outline-none focus:bg-rose-400 active:bg-rose-400">
         <CartComp class="size-12 p-2 rounded-full cursor-pointer" />
       </RouterLink>
 
-      <RouterLink :to="{ name: 'sign-in' }" class="rounded px-3 py-2 hover:bg-rose-400 focus:bg-rose-600 focus:outline-none transition-all duration-300">
-        Sign in
+      <RouterLink @mousedown="userAuthStore.signOut" :to="{ name: 'sign-in' }" class="rounded px-3 py-2 hover:bg-rose-400 focus:bg-rose-600 focus:outline-none transition-all duration-300">
+        {{ userAuthStore.isAuth ? 'Sign out' : 'Sign in' }}
       </RouterLink>
-
     </nav>
   </header>
 

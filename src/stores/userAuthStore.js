@@ -3,14 +3,19 @@ import { ref } from "vue";
 import { fetcher } from "@/api/storeApi"
 
 export const useUserAuthStore = defineStore('userAuthStore', () => {
-    const isAuth = ref(false)
+    
     const token = ref(localStorage.getItem('ycn-authToken') || null)
+    const username = ref(localStorage.getItem('ycn-username') || null)
+    const isAuth = ref(token.value ? true : false)
+
+    const userId = ref(null)
+
     const loading = ref(false)
     const error = ref(null)
 
     const response = ref('')
 
-    const signIn = async (data) => {
+    const signIn = async (data, username) => {
         loading.value = true
         error.value = null
 
@@ -20,6 +25,7 @@ export const useUserAuthStore = defineStore('userAuthStore', () => {
                 token.value = response.value.token
                 isAuth.value = true
                 localStorage.setItem('ycn-authToken', token.value)
+                localStorage.setItem('ycn-username', username)
             }
         } catch (err) {
             error.value = err
@@ -29,10 +35,17 @@ export const useUserAuthStore = defineStore('userAuthStore', () => {
     }
 
     const signOut = () => {
-        token.value = null
-        isAuth.value = false
-        localStorage.removeItem('ycn-authToken')
+        if (isAuth.value) {
+            token.value = null
+            isAuth.value = false
+            localStorage.removeItem('ycn-authToken')
+            localStorage.removeItem('ycn-username')
+        }
     }
 
-    return { isAuth, token, response, error, loading, signIn, signOut }
+    const fetchUserId = (users) => {
+        userId.value = users.filter(user => user.username === username.value)[0].id
+    }
+
+    return { isAuth, token, userId, username, response, error, loading, signIn, signOut, fetchUserId }
 })
