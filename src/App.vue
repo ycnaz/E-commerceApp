@@ -103,7 +103,7 @@
 
       </div>
       
-      <RouterLink :to="{ name: 'user' }" class="rounded-full hover:bg-rose-400 transition-all duration-300 focus:outline-none focus:bg-rose-400 active:bg-rose-400">
+      <RouterLink :to="{ name: 'cart' }" class="rounded-full hover:bg-rose-400 transition-all duration-300 focus:outline-none focus:bg-rose-400 active:bg-rose-400">
         <CartComp class="size-12 p-2 rounded-full cursor-pointer" />
       </RouterLink>
 

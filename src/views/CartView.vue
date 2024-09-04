@@ -2,6 +2,7 @@
 import { useUserAuthStore } from '@/stores/userAuthStore';
 import { useCartStore } from '@/stores/cartStore';
 import { onMounted, ref } from 'vue';
+import ProductTable from '@/components/ProductTable.vue';
 
 const userAuthStore = useUserAuthStore()
 const cartStore = useCartStore()
@@ -18,34 +19,7 @@ onMounted(() => fetchCartItems())
 <template>
     <div class="h-full flex p-5 gap-x-5">
 
-        <section class="flex flex-col grow">
-            <h1 class="text-4xl font-semibold mb-3">Shopping Cart</h1>
-            <strong>X items </strong><span>in your cart</span>
-            <table class="bg-gray-200 grow rounded-lg">
-                <tbody>
-                    <tr>
-                        <th>Products</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total Price</th>
-                    </tr>
-                    <tr>
-                        <td class="p-5">
-                            <div class="flex justify-center items-center bg-white size-40 rounded-lg">
-                                <img class="size-32" src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg">
-                            </div>
-                            <section>
-                                <span>Clothing</span>
-                                <h4 class="min-w-max text-xl">Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h4>
-                            </section>
-                        </td>
-                        <td>yo</td>
-                        <td>1</td>
-                        <td>2</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+        <ProductTable />
 
         <div class="flex flex-col w-96">
             <div class="flex flex-col h-1/2 max-h-96 items-start justify-between">
