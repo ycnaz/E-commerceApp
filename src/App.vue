@@ -6,6 +6,7 @@
   import { useCategoryStore } from './stores/categoryStore';
   import { useUserAuthStore } from './stores/userAuthStore';
   import { useProgressStore } from './stores/progressStore';
+  import { useProductStore } from './stores/productStore';
   import { useUserStore } from './stores/userStore';
   import ProgressBar from './components/ProgressBar.vue';
 
@@ -18,6 +19,7 @@
   const categoryStore = useCategoryStore()
   const userAuthStore = useUserAuthStore()
   const progressStore = useProgressStore()
+  const productStore = useProductStore()
   const users = useUserStore()
 
   const navLinks = ref([
@@ -55,6 +57,7 @@
 
   onMounted(() => {
     categoryStore.fetchAll()
+    productStore.fetchAll()
     fetchUsers()
   })
 </script>

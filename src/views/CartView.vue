@@ -1,16 +1,64 @@
 <script setup>
 import { useUserAuthStore } from '@/stores/userAuthStore';
 import { useCartStore } from '@/stores/cartStore';
-import { onMounted, ref } from 'vue';
+import { useProductStore } from '@/stores/productStore';
+import { computed, onMounted, ref } from 'vue';
+import { useToast } from 'vue-toastification';
 import ProductTable from '@/components/ProductTable.vue';
+import { useExchangeStore } from '@/stores/exchangeStore';
 
+const exchangeStore = useExchangeStore()
 const userAuthStore = useUserAuthStore()
 const cartStore = useCartStore()
+const productStore = useProductStore()
+const toast = useToast()
+
+
 const cart = ref(null)
+const products = ref([])
+const totalPrice = computed(() => {
+    return products.value.map(product => product.product.price * product.quantity).reduce((acc, curr) => acc + curr, 0)
+})
+
+const COUPON = import.meta.env.VITE_COUPON_CODE
+
+const couponUsed = ref(false)
+const userCoupon = ref('')
+const couponAmount = ref(0)
+
+const handleCoupon = () => {
+    if (userCoupon.value === COUPON) {
+        toast.success('Coupon used!')
+        couponUsed.value = true
+        couponAmount.value = totalPrice.value * 0.2
+        userCoupon.value = ''
+    } else {
+        toast.warning('Coupon is not correct')
+    }
+}
 
 const fetchCartItems = async () => {
     await cartStore.fetchAll()
-    cart.value = cartStore.items.filter(cart => cart.id === userAuthStore.userId)
+
+    cart.value = cartStore.items.find(cart => cart.id === userAuthStore.userId)
+    
+    cart.value.products.forEach(item => {
+        const product = productStore.items.find(product => product.id === item.productId)
+        if (product) {
+            products.value.push({
+                product: product,
+                quantity: item.quantity
+            })
+        }
+    })
+}
+
+const changePrices = (price) => {
+    if (exchangeStore.userPref) {
+        return `${(price * exchangeStore.latest.rates[exchangeStore.userPref]).toFixed(2)}/${exchangeStore.userPref}`
+    } else {
+        return `${price}/USD`
+    }
 }
 
 onMounted(() => fetchCartItems())
@@ -19,7 +67,7 @@ onMounted(() => fetchCartItems())
 <template>
     <div class="h-full flex p-5 gap-x-5">
 
-        <ProductTable />
+        <ProductTable :products />
 
         <div class="flex flex-col w-96">
             <div class="flex flex-col h-1/2 max-h-96 items-start justify-between">
@@ -28,8 +76,8 @@ onMounted(() => fetchCartItems())
                     <p class="mt-3">Enter your coupon code to get a discount</p>
                 </div>
                 <div class="w-full">
-                    <input class="mb-3 w-full rounded-3xl bg-gray-200 border-none focus:ring-0" type="text" placeholder="Coupon Code...">
-                    <button class="w-full bg-black text-white py-3 rounded-3xl hover:ring hover:ring-black hover:ring-offset-2 transition-all">Apply</button>
+                    <input v-model="userCoupon" class="mb-3 w-full rounded-3xl bg-gray-200 border-none focus:ring-0" type="text" placeholder="Coupon Code...">
+                    <button @click="handleCoupon" class="w-full bg-black text-white py-3 rounded-3xl hover:ring hover:ring-black hover:ring-offset-2 transition-all">Apply</button>
                 </div>
             </div>
             <div class="w-full divider"></div>
@@ -37,15 +85,15 @@ onMounted(() => fetchCartItems())
                 <h2 class="text-2xl font-semibold mb-3">Cart Total</h2>
                 <div class="flex justify-between">
                     <span>Items:</span>
-                    <span>2000/USD</span>
+                    <span>{{ changePrices(totalPrice) }}</span>
                 </div>
                 <div class="flex justify-between">
                     <span>Coupon:</span>
-                    <span>-150/USD</span>
+                    <span>{{ changePrices(couponAmount) }}</span>
                 </div>
                 <div class="flex justify-between font-semibold text-xl">
                     <span>Total:</span>
-                    <span>1850/USD</span>
+                    <span>{{ changePrices(couponUsed ? totalPrice - couponAmount : totalPrice) }}</span>
                 </div>
                 <button class="w-full bg-white text-black py-3 rounded-3xl mt-auto hover:bg-slate-100 transition-all">Purchase</button>
             </section>
