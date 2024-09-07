@@ -7,6 +7,7 @@
   import { useUserAuthStore } from './stores/userAuthStore';
   import { useProgressStore } from './stores/progressStore';
   import { useProductStore } from './stores/productStore';
+  import { useCartStore } from './stores/cartStore';
   import { useUserStore } from './stores/userStore';
   import ProgressBar from './components/ProgressBar.vue';
 
@@ -20,7 +21,10 @@
   const userAuthStore = useUserAuthStore()
   const progressStore = useProgressStore()
   const productStore = useProductStore()
+  const cartStore = useCartStore()
   const users = useUserStore()
+
+  const userCartItemNum = ref(0)
 
   const navLinks = ref([
     {id: 1, name: 'Home', url: '/'},
@@ -53,12 +57,24 @@
   const fetchUsers = async () => {
     await users.fetchAll()
     userAuthStore.fetchUserId(users.items)
+    await cartStore.fetchAll()
+    if (userAuthStore.isAuth) {
+      userCartItemNum.value = userAuthStore.userCart.length
+    }
+  }
+
+  const getUserData = () => {
+    userAuthStore.fetchUserId()
+    userAuthStore.fetchCart()
   }
 
   onMounted(() => {
     categoryStore.fetchAll()
     productStore.fetchAll()
     fetchUsers()
+    if (userAuthStore.isAuth) {
+      getUserData()
+    }
   })
 </script>
 
@@ -106,7 +122,8 @@
 
       </div>
       
-      <RouterLink :to="{ name: 'cart' }" class="rounded-full hover:bg-rose-400 transition-all duration-300 focus:outline-none focus:bg-rose-400 active:bg-rose-400">
+      <RouterLink :to="{ name: 'cart' }" :class="{ 'indicator': userCartItemNum }" class="rounded-full hover:bg-rose-400 transition-all duration-300 focus:outline-none focus:bg-rose-400 active:bg-rose-400">
+        <span v-if="userCartItemNum" class="indicator-item badge bg-amber-500">{{ userCartItemNum }}</span>
         <CartComp class="size-12 p-2 rounded-full cursor-pointer" />
       </RouterLink>
 

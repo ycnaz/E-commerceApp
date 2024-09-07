@@ -47,7 +47,7 @@ const handleImageLoad = () => {
                                 <span v-show="imgIsLoading" class="loading loading-spinner text-rose-500"></span>
                             </div>
                             <section class="flex flex-col justify-center">
-                                <span>{{ product.product.category }}</span>
+                                <span>{{ product.product.category.charAt(0).toUpperCase() + product.product.category.slice(1) }}</span>
                                 <h4 class="min-w-max text-xl">{{ product.product.title }}</h4>
                             </section>
                         </div>

@@ -2,7 +2,7 @@ import { defineStore } from "pinia"
 import { ref } from "vue"
 import { fetcher } from "@/api/storeApi"
 
-// To eliminate code redundancy I created a function that creates dynamic stores
+// To eliminate code redundancy I created a function that dynamically creates stores
 export function createFetchStore(storeName, endpoint) {
     return defineStore(storeName, () => {
         const items = ref([])

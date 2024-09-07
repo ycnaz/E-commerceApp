@@ -34,6 +34,8 @@ const signIn = async () => {
     }
 }
 
+// cart.value = cartStore.items.find(cart => cart.id === userAuthStore.userId)
+
 const redirectAfterLogin = () => {
     router.push(redirectPath)
 }
@@ -41,7 +43,7 @@ const redirectAfterLogin = () => {
 
 <template>
     <div class="h-full flex flex-col justify-center items-center">
-        <span v-if="userAuthStore.error" class="text-rose-500">{{ userAuthStore.error.response.data }}</span>
+        <span v-if="userAuthStore.error" class="text-rose-500">{{ userAuthStore.error }}</span>
         <section>
             <h1 class="text-6xl mb-5 place-self-start">Sign in</h1>
             <div class="flex flex-col">

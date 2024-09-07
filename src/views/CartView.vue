@@ -1,22 +1,35 @@
 <script setup>
-import { useUserAuthStore } from '@/stores/userAuthStore';
-import { useCartStore } from '@/stores/cartStore';
 import { useProductStore } from '@/stores/productStore';
-import { computed, onMounted, ref } from 'vue';
+import { useUserAuthStore } from '@/stores/userAuthStore';
+import { onMounted, ref, computed, watch } from 'vue';
 import { useToast } from 'vue-toastification';
 import ProductTable from '@/components/ProductTable.vue';
 import { useExchangeStore } from '@/stores/exchangeStore';
 
 const exchangeStore = useExchangeStore()
-const userAuthStore = useUserAuthStore()
-const cartStore = useCartStore()
 const productStore = useProductStore()
+const userAuthStore = useUserAuthStore()
 const toast = useToast()
 
-
-const cart = ref(null)
 const products = ref([])
-const totalPrice = computed(() => {
+
+// const userCart = computed(() => userAuthStore.userCart)
+
+watch(() => userAuthStore.userCart, (newVal) => console.log(newVal))
+
+const fetchCartItems = async () => {
+    for (const cartItem of userAuthStore.userCart) {
+        const product = productStore.items.find(product => product.id === cartItem.productId)
+        if (product) {
+            products.value.push({
+                product: product,
+                quantity: cartItem.quantity
+            })
+        }
+    }
+}
+
+const cartTotalPrice = computed(() => {
     return products.value.map(product => product.product.price * product.quantity).reduce((acc, curr) => acc + curr, 0)
 })
 
@@ -30,28 +43,13 @@ const handleCoupon = () => {
     if (userCoupon.value === COUPON) {
         toast.success('Coupon used!')
         couponUsed.value = true
-        couponAmount.value = totalPrice.value * 0.2
+        couponAmount.value = cartTotalPrice.value * 0.2
         userCoupon.value = ''
     } else {
         toast.warning('Coupon is not correct')
     }
 }
 
-const fetchCartItems = async () => {
-    await cartStore.fetchAll()
-
-    cart.value = cartStore.items.find(cart => cart.id === userAuthStore.userId)
-    
-    cart.value.products.forEach(item => {
-        const product = productStore.items.find(product => product.id === item.productId)
-        if (product) {
-            products.value.push({
-                product: product,
-                quantity: item.quantity
-            })
-        }
-    })
-}
 
 const changePrices = (price) => {
     if (exchangeStore.userPref) {
@@ -85,7 +83,7 @@ onMounted(() => fetchCartItems())
                 <h2 class="text-2xl font-semibold mb-3">Cart Total</h2>
                 <div class="flex justify-between">
                     <span>Items:</span>
-                    <span>{{ changePrices(totalPrice) }}</span>
+                    <span>{{ changePrices(cartTotalPrice) }}</span>
                 </div>
                 <div class="flex justify-between">
                     <span>Coupon:</span>
@@ -93,7 +91,7 @@ onMounted(() => fetchCartItems())
                 </div>
                 <div class="flex justify-between font-semibold text-xl">
                     <span>Total:</span>
-                    <span>{{ changePrices(couponUsed ? totalPrice - couponAmount : totalPrice) }}</span>
+                    <span>{{ changePrices(couponUsed ? cartTotalPrice - couponAmount : cartTotalPrice) }}</span>
                 </div>
                 <button class="w-full bg-white text-black py-3 rounded-3xl mt-auto hover:bg-slate-100 transition-all">Purchase</button>
             </section>
