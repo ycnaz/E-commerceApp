@@ -28,8 +28,8 @@ export const useUserAuthStore = defineStore('userAuthStore', () => {
             token.value = response.value.token
             localStorage.setItem('ycn-authToken', token.value)
             localStorage.setItem('ycn-username', username)
-            fetchUserId()
-            fetchCart()
+            await fetchUserId()
+            await fetchCart()
         } catch (err) {
             error.value = err
             console.error(err)
@@ -42,34 +42,55 @@ export const useUserAuthStore = defineStore('userAuthStore', () => {
         if (isAuth.value) {
             token.value = null
             isAuth.value = false
+            userId.value = null
+            userCart.value = []
             localStorage.removeItem('ycn-authToken')
             localStorage.removeItem('ycn-username')
         }
     }
 
-    const getUsers = computed(() => {
-        const users = useUserStore()
-        users.fetchAll()
-        return users.items
-    })
-
-    const getCarts = computed(() => {
-        const carts = useCartStore()
-        carts.fetchAll()
-        console.log(carts.items)
-        return carts.items
-    })
-
-    const fetchUserId = () => {
-        if (!userId.value) {
-            userId.value = getUsers.value.find(user => user.username === username.value)
+    const getUsers = async () => {
+        try {
+            const response = await fetcher(`/users`, 'GET')
+            return response
+        } catch (err) {
+            console.log(err)
         }
     }
 
-    const fetchCart = () => {
-        const products = getCarts.value.find(cart => cart.id === userId.value).products
-        userCart.value = [...products]
+    const getCart = async () => {
+        if (userId.value) {
+            try {
+                const response = await fetcher(`/carts/${userId.value}`, 'GET')
+                console.log(response)
+                return response
+            } catch (err) {
+                console.log(err)
+            }
+        }
+    }
+
+    const fetchUserId = async () => {
+        if (!userId.value) {
+            const users = await getUsers()
+            const user = users.find(user => user.username === username.value)
+            
+            if (user) {
+                userId.value = user.id
+            }
+        }
+        return userId.value
+    }
+
+    const fetchCart = async () => {
+        const cart = await getCart()
+        console.log(userId.value)
+        if (cart) {
+            userCart.value = [...cart.products]
+        }
     }
 
     return { isAuth, token, userId, username, response, error, loading, userCart, signIn, signOut, fetchUserId, fetchCart }
 })
+
+// https://chatgpt.com/share/66f84ab1-95c4-8006-b5bc-8ac661091bc7
