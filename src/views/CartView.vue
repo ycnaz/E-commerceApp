@@ -15,8 +15,6 @@ const products = ref([])
 
 // const userCart = computed(() => userAuthStore.userCart)
 
-watch(() => userAuthStore.userCart, (newVal) => console.log(newVal))
-
 const fetchCartItems = async () => {
     for (const cartItem of userAuthStore.userCart) {
         const product = productStore.items.find(product => product.id === cartItem.productId)

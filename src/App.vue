@@ -1,6 +1,6 @@
 <script setup>
   import { RouterView, RouterLink, useRouter, useRoute } from 'vue-router'
-  import { defineAsyncComponent, onMounted, ref } from 'vue';
+  import { computed, defineAsyncComponent, onMounted, ref, watch } from 'vue';
   import { useToast } from 'vue-toastification';
   import { useExchangeStore } from './stores/exchangeStore';
   import { useCategoryStore } from './stores/categoryStore';
@@ -24,7 +24,9 @@
   const cartStore = useCartStore()
   const users = useUserStore()
 
-  const userCartItemNum = ref(0)
+  const userCartItemNum = computed(() => userAuthStore.userCart.length)
+
+  watch(() => userAuthStore.userCart.length, (newVal) => console.log(newVal))
 
   const navLinks = ref([
     {id: 1, name: 'Home', url: '/'},
@@ -58,14 +60,11 @@
     await users.fetchAll()
     userAuthStore.fetchUserId(users.items)
     await cartStore.fetchAll()
-    if (userAuthStore.isAuth) {
-      userCartItemNum.value = userAuthStore.userCart.length
-    }
   }
 
-  const getUserData = () => {
-    userAuthStore.fetchUserId()
-    userAuthStore.fetchCart()
+  const getUserData = async () => {
+    await userAuthStore.fetchUserId()
+    await userAuthStore.fetchCart()
   }
 
   onMounted(() => {

@@ -1,8 +1,6 @@
 import { defineStore } from "pinia";
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import { fetcher } from "@/api/storeApi"
-import { useCartStore } from "./cartStore";
-import { useUserStore } from "./userStore";
 
 export const useUserAuthStore = defineStore('userAuthStore', () => {
     
@@ -62,7 +60,6 @@ export const useUserAuthStore = defineStore('userAuthStore', () => {
         if (userId.value) {
             try {
                 const response = await fetcher(`/carts/${userId.value}`, 'GET')
-                console.log(response)
                 return response
             } catch (err) {
                 console.log(err)
@@ -84,7 +81,6 @@ export const useUserAuthStore = defineStore('userAuthStore', () => {
 
     const fetchCart = async () => {
         const cart = await getCart()
-        console.log(userId.value)
         if (cart) {
             userCart.value = [...cart.products]
         }
@@ -92,5 +88,3 @@ export const useUserAuthStore = defineStore('userAuthStore', () => {
 
     return { isAuth, token, userId, username, response, error, loading, userCart, signIn, signOut, fetchUserId, fetchCart }
 })
-
-// https://chatgpt.com/share/66f84ab1-95c4-8006-b5bc-8ac661091bc7
