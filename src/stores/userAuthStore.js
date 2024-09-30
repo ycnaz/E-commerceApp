@@ -83,6 +83,7 @@ export const useUserAuthStore = defineStore('userAuthStore', () => {
         const cart = await getCart()
         if (cart) {
             userCart.value = [...cart.products]
+            console.log(userCart.value)
         }
     }
 

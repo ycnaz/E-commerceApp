@@ -1,7 +1,7 @@
 <script setup>
 import { useProductStore } from '@/stores/productStore';
 import { useUserAuthStore } from '@/stores/userAuthStore';
-import { onMounted, ref, computed, watch } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import { useToast } from 'vue-toastification';
 import ProductTable from '@/components/ProductTable.vue';
 import { useExchangeStore } from '@/stores/exchangeStore';
@@ -12,8 +12,6 @@ const userAuthStore = useUserAuthStore()
 const toast = useToast()
 
 const products = ref([])
-
-// const userCart = computed(() => userAuthStore.userCart)
 
 const fetchCartItems = async () => {
     for (const cartItem of userAuthStore.userCart) {
@@ -57,6 +55,13 @@ const changePrices = (price) => {
     }
 }
 
+const removeCoupon = () => {
+    couponUsed.value = false
+    userCoupon.value = ''
+    couponAmount.value = 0
+    toast.success('Coupon removed!')
+}
+
 onMounted(() => fetchCartItems())
 </script>
 
@@ -91,7 +96,10 @@ onMounted(() => fetchCartItems())
                     <span>Total:</span>
                     <span>{{ changePrices(couponUsed ? cartTotalPrice - couponAmount : cartTotalPrice) }}</span>
                 </div>
-                <button class="w-full bg-white text-black py-3 rounded-3xl mt-auto hover:bg-slate-100 transition-all">Purchase</button>
+                <div class="flex flex-col gap-y-2 mt-auto">
+                    <button v-if="couponUsed" @click="removeCoupon" class="w-full bg-white text-rose-500 py-3 rounded-3xl hover:bg-slate-100 transition-all">Remove Coupon</button>
+                    <button class="w-full bg-white font-bold text-black py-3 rounded-3xl hover:bg-slate-100 transition-all">Purchase</button>
+                </div>
             </section>
         </div>
 
