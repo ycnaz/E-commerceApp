@@ -83,9 +83,12 @@ export const useUserAuthStore = defineStore('userAuthStore', () => {
         const cart = await getCart()
         if (cart) {
             userCart.value = [...cart.products]
-            console.log(userCart.value)
         }
     }
 
-    return { isAuth, token, userId, username, response, error, loading, userCart, signIn, signOut, fetchUserId, fetchCart }
+    const addToCart = (product) => {
+        userCart.value.push(product)
+    }
+
+    return { isAuth, token, userId, username, response, error, loading, userCart, signIn, signOut, fetchUserId, fetchCart, addToCart }
 })
