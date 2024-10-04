@@ -12,6 +12,7 @@ export const useUserAuthStore = defineStore('userAuthStore', () => {
     const userCart = ref([])
     const loading = ref(false)
     const error = ref(null)
+    const isCartFetched = ref(false)
 
     const response = ref('')
 
@@ -42,6 +43,7 @@ export const useUserAuthStore = defineStore('userAuthStore', () => {
             isAuth.value = false
             userId.value = null
             userCart.value = []
+            isCartFetched.value = false
             localStorage.removeItem('ycn-authToken')
             localStorage.removeItem('ycn-username')
         }
@@ -80,15 +82,28 @@ export const useUserAuthStore = defineStore('userAuthStore', () => {
     }
 
     const fetchCart = async () => {
-        const cart = await getCart()
-        if (cart) {
-            userCart.value = [...cart.products]
+        if (!isCartFetched.value) {
+            const cart = await getCart()
+            if (cart) {
+                userCart.value = [...cart.products]
+            }
+            isCartFetched.value = true
         }
     }
 
     const addToCart = (product) => {
-        userCart.value.push(product)
+        const itemIndex = userCart.value.findIndex(item => item.productId === product.productId)
+
+        if (itemIndex === -1) {
+            userCart.value.push(product)
+        } else {
+            userCart.value[itemIndex].quantity += product.quantity
+        }
     }
 
-    return { isAuth, token, userId, username, response, error, loading, userCart, signIn, signOut, fetchUserId, fetchCart, addToCart }
+    const removeFromCart = (id) => {
+        userCart.value = userCart.value.filter(item => item.productId != id)
+    }
+
+    return { isAuth, token, userId, username, response, error, loading, userCart, signIn, signOut, fetchUserId, fetchCart, addToCart, removeFromCart }
 })

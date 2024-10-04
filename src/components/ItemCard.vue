@@ -9,10 +9,12 @@ const props = defineProps({
 import { useExchangeStore } from '@/stores/exchangeStore';
 import { useUserAuthStore } from '@/stores/userAuthStore';
 import { useToast } from 'vue-toastification';
+import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 
 const exchangeStore = useExchangeStore()
 const userAuthStore = useUserAuthStore()
+const router = useRouter()
 const toast = useToast()
 
 const changePrices = (price) => {
@@ -28,7 +30,11 @@ const handleImageLoad = () => {
 }
 
 const openProductModal = () => {
-    isModalOpen.value = true
+    if (userAuthStore.isAuth) {
+        isModalOpen.value = true
+    } else {
+        router.push({ name: 'sign-in' })
+    }
 }
 
 const closeProductModal = () => {
@@ -49,9 +55,6 @@ const addToCart = () => {
     if (!productQuantity.value) return
 
     toast.success('Item added to cart successfully')
-    if (userAuthStore.userCart.some(item => item.productId === props.item.id)) {
-        toast.warning('it exists')
-    }
     userAuthStore.addToCart({ "productId": props.item.id, "quantity": productQuantity.value })
 }
 </script>

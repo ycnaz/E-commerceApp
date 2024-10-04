@@ -34,8 +34,6 @@ const signIn = async () => {
     }
 }
 
-// cart.value = cartStore.items.find(cart => cart.id === userAuthStore.userId)
-
 const redirectAfterLogin = () => {
     router.push(redirectPath)
 }

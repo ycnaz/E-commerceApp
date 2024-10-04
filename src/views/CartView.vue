@@ -36,13 +36,15 @@ const userCoupon = ref('')
 const couponAmount = ref(0)
 
 const handleCoupon = () => {
-    if (userCoupon.value === COUPON) {
-        toast.success('Coupon used!')
-        couponUsed.value = true
-        couponAmount.value = cartTotalPrice.value * 0.2
-        userCoupon.value = ''
-    } else {
-        toast.warning('Coupon is not correct')
+    if (userCoupon.value.trim()) {
+        if (userCoupon.value === COUPON) {
+            toast.success('Coupon used!')
+            couponUsed.value = true
+            couponAmount.value = cartTotalPrice.value * 0.2
+            userCoupon.value = ''
+        } else {
+            toast.warning('Coupon is not correct')
+        }
     }
 }
 
@@ -51,7 +53,7 @@ const changePrices = (price) => {
     if (exchangeStore.userPref) {
         return `${(price * exchangeStore.latest.rates[exchangeStore.userPref]).toFixed(2)}/${exchangeStore.userPref}`
     } else {
-        return `${price}/USD`
+        return `${price.toFixed(2)}/USD`
     }
 }
 
@@ -62,13 +64,25 @@ const removeCoupon = () => {
     toast.success('Coupon removed!')
 }
 
-onMounted(() => fetchCartItems())
+const removeProduct = (id) => {
+    userAuthStore.removeFromCart(id)
+
+    products.value = products.value.filter(item => item.product.id != id)
+    toast.success('Item removed from your cart')
+}
+
+onMounted(async () => {
+    await userAuthStore.fetchUserId()
+    await userAuthStore.fetchCart()
+
+    fetchCartItems()
+})
 </script>
 
 <template>
     <div class="h-full flex p-5 gap-x-5">
 
-        <ProductTable :products />
+        <ProductTable :products @removeProduct="removeProduct" />
 
         <div class="flex flex-col w-96">
             <div class="flex flex-col h-1/2 max-h-96 items-start justify-between">
