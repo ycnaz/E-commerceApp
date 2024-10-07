@@ -51,6 +51,12 @@ const router = createRouter({
       name: 'cart',
       component: () => import('../views/CartView.vue'),
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/sell',
+      name: 'sell',
+      component: () => import('../views/SellView.vue'),
+      meta: { requiresAuth: true }
     }
   ],
   scrollBehavior(to, from, savedPosition) {

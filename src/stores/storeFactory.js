@@ -1,6 +1,7 @@
 import { defineStore } from "pinia"
 import { ref } from "vue"
 import { fetcher } from "@/api/storeApi"
+import { useUserAuthStore } from "./userAuthStore";
 
 // To eliminate code redundancy I created a function that dynamically creates stores
 export function createFetchStore(storeName, endpoint) {
@@ -28,6 +29,16 @@ export function createFetchStore(storeName, endpoint) {
             }
         }
 
-        return { items, loading, error, fetchAll }
+        const addToItems = async (item) => {
+            const userAuthStore = useUserAuthStore()
+            const newItem = await fetcher(endpoint,'post', item)
+            if (userAuthStore.userId) {
+                newItem.userId = userAuthStore.userId
+                items.value.push(newItem)
+                console.log(newItem)
+            }
+        }
+
+        return { items, loading, error, fetchAll, addToItems }
     });
 }
