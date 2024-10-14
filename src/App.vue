@@ -7,8 +7,6 @@
   import { useUserAuthStore } from './stores/userAuthStore';
   import { useProgressStore } from './stores/progressStore';
   import { useProductStore } from './stores/productStore';
-  import { useCartStore } from './stores/cartStore';
-  import { useUserStore } from './stores/userStore';
   import ProgressBar from './components/ProgressBar.vue';
 
   const CartComp = defineAsyncComponent(() => import('./assets/svg/cart.svg'))
@@ -21,8 +19,6 @@
   const userAuthStore = useUserAuthStore()
   const progressStore = useProgressStore()
   const productStore = useProductStore()
-  const cartStore = useCartStore()
-  const users = useUserStore()
 
   const userCartItemNum = computed(() => userAuthStore.userCart.length)
 
@@ -54,12 +50,6 @@
     }
   }
 
-  const fetchUsers = async () => {
-    await users.fetchAll()
-    userAuthStore.fetchUserId(users.items)
-    await cartStore.fetchAll()
-  }
-
   const getUserData = async () => {
     await userAuthStore.fetchUserId()
     await userAuthStore.fetchCart()
@@ -68,7 +58,6 @@
   onMounted(() => {
     categoryStore.fetchAll()
     productStore.fetchAll()
-    fetchUsers()
     if (userAuthStore.isAuth) {
       getUserData()
     }

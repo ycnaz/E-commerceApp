@@ -16,7 +16,7 @@ export const useUserAuthStore = defineStore('userAuthStore', () => {
 
     const response = ref('')
 
-    const signIn = async (data , username) => {
+    const signIn = async (data , newUsername) => {
         loading.value = true
         error.value = null
         try {
@@ -25,8 +25,9 @@ export const useUserAuthStore = defineStore('userAuthStore', () => {
             }
             isAuth.value = true
             token.value = response.value.token
+            username.value = newUsername
             localStorage.setItem('ycn-authToken', token.value)
-            localStorage.setItem('ycn-username', username)
+            localStorage.setItem('ycn-username', newUsername)
             await fetchUserId()
             await fetchCart()
         } catch (err) {
@@ -44,6 +45,7 @@ export const useUserAuthStore = defineStore('userAuthStore', () => {
             userId.value = null
             userCart.value = []
             isCartFetched.value = false
+            username.value = null
             localStorage.removeItem('ycn-authToken')
             localStorage.removeItem('ycn-username')
         }

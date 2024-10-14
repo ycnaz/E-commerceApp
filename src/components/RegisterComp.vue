@@ -24,7 +24,7 @@ const notImplemented = () => {
         <section>
             <h1 class="text-6xl mb-5 place-self-start">Register</h1>
             <div class="flex">
-                <form class="flex flex-col justify-center space-y-3" @submit.prevent="">
+                <form class="flex flex-col justify-center space-y-3" @submit.prevent="notImplemented">
                     <AuthInput v-model="username" type="text" input-id="username" label-for="username" label-text="Username" min-length="3" auto-complete="username" max-length="15"/>
                     <AuthInput v-model="email" type="email" input-id="email" label-for="email" label-text="Email" min-length="3"/>
                     <AuthInput v-model="password" type="password" input-id="password" label-for="password" label-text="Password" min-length="6" auto-complete="password"/>
