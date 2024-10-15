@@ -55,6 +55,27 @@
     await userAuthStore.fetchCart()
   }
 
+  const query = ref('')
+  const resultStatus = ref(false)
+
+  const productsBasedOnQuery = computed(() => {
+    return productStore.items.filter(product => product.title.toLowerCase().includes(query.value.toLowerCase()))
+  })
+
+  const showSearchResult = () => {
+    if (query.value.trim && query.value.length > 0 && productsBasedOnQuery.value.length) {
+      resultStatus.value = true
+    } else {
+      resultStatus.value = false
+    }
+  }
+
+  const wordLimit = 7
+
+  const truncatedTitle = (title) => {
+    return title.split(' ').slice(0, wordLimit).join(' ') + (title.split(' ').length > wordLimit ? '...' : '')
+  }
+
   onMounted(() => {
     categoryStore.fetchAll()
     productStore.fetchAll()
@@ -71,9 +92,18 @@
 
       <strong class="text-5xl cursor-pointer">YCN</strong>
 
-      <div class="flex grow max-w-[40%]">
-        <input class="text-black border-none rounded-ss-3xl w-auto flex grow text-xl rounded-es-3xl focus:ring-0 focus:outline-none pl-5">
+      <div class="flex grow max-w-[40%] relative">
+        <input @input="showSearchResult" v-model="query" class="text-black border-none rounded-ss-3xl w-auto flex grow text-xl rounded-es-3xl focus:ring-0 focus:outline-none pl-5">
         <MagnifyingComp class="size-12 p-3 bg-gray-100 rounded-se-3xl rounded-ee-3xl cursor-pointer"/>
+
+        <div :class="resultStatus ? 'scale-100' : 'scale-0'" class="absolute bg-gray-900 custom-shadow custom-scrollbar w-full max-h-96 overflow-y-scroll top-20 px-5 py-3 origin-top rounded-3xl flex flex-col gap-y-2 transition-all">
+          <div v-for="product in productsBasedOnQuery" :key="product.id" class="flex items-center gap-x-2">
+            <div class="size-10 bg-white">
+              <img class="object-contain size-full" loading="lazy" alt="Product Image in Search" :src="product.image">
+            </div>
+            <span>{{ truncatedTitle(product.title) }}</span>
+          </div>
+        </div>
       </div>
 
       <div class="flex h-full relative">
@@ -180,5 +210,13 @@ nav > span {
 
 .custom-shadow {
   box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #4b5563 !important;
 }
 </style>

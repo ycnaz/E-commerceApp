@@ -67,7 +67,7 @@ const handleQuantity = (action, id) => {
                                 <span v-show="imgIsLoading" class="loading loading-spinner text-rose-500"></span>
                             </div>
                             <section class="flex flex-col justify-center">
-                                <span>{{ product.product.category.charAt(0).toUpperCase() + product.product.category.slice(1) }}</span>
+                                <span class="font-semibold underline">{{ product.product.category.charAt(0).toUpperCase() + product.product.category.slice(1) }}</span>
                                 <h4 class="max-w-96 line-clamp-3 text-xl">{{ product.product.title }}</h4>
                             </section>
                         </div>

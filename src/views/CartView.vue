@@ -33,14 +33,15 @@ const COUPON = import.meta.env.VITE_COUPON_CODE
 
 const couponUsed = ref(false)
 const userCoupon = ref('')
-const couponAmount = ref(0)
+const couponAmount = computed(() => {
+    return couponUsed.value ? cartTotalPrice.value * 0.2 : 0
+})
 
 const handleCoupon = () => {
     if (userCoupon.value.trim()) {
         if (userCoupon.value === COUPON) {
             toast.success('Coupon used!')
             couponUsed.value = true
-            couponAmount.value = cartTotalPrice.value * 0.2
             userCoupon.value = ''
         } else {
             toast.warning('Coupon is not correct')
@@ -100,11 +101,11 @@ onMounted(async () => {
                 <h2 class="text-2xl font-semibold mb-3">Cart Total</h2>
                 <div class="flex justify-between">
                     <span>Items:</span>
-                    <span>{{ changePrices(cartTotalPrice) }}</span>
+                    <span class="text-red-500">{{ changePrices(cartTotalPrice) }}</span>
                 </div>
                 <div class="flex justify-between">
                     <span>Coupon:</span>
-                    <span>{{ changePrices(couponAmount) }}</span>
+                    <span class="text-emerald-500">{{ changePrices(couponAmount) }}</span>
                 </div>
                 <div class="flex justify-between font-semibold text-xl">
                     <span>Total:</span>
