@@ -9,7 +9,8 @@
   import { useProductStore } from './stores/productStore';
   import { useModalStore } from './stores/modalStore';
   import ProgressBar from './components/ProgressBar.vue';
-  import modalComp from './components/modalComp.vue';
+  import ModalComp from './components/ModalComp.vue';
+  import ResultComp from './components/ResultComp.vue';
 
   const CartComp = defineAsyncComponent(() => import('./assets/svg/cart.svg'))
   const MagnifyingComp = defineAsyncComponent(() => import('./assets/svg/magnifying.svg'))
@@ -73,22 +74,13 @@
     }
   }
 
-  const wordLimit = 7
-
-  const truncatedTitle = (title) => {
-    return title.split(' ').slice(0, wordLimit).join(' ') + (title.split(' ').length > wordLimit ? '...' : '')
-  }
-
   const redirectToProduct = (product) => {
-    modalStore.setProduct(product)
     query.value = ''
     resultStatus.value = false
-  }
 
-  const imgIsLoading = ref(true)
-
-  const handleImageLoad = () => {
-      imgIsLoading.value = false
+    if (!userAuthStore.isAuth) return router.push({ name: 'sign-in' })
+    
+    modalStore.setProduct(product)
   }
 
   onMounted(() => {
@@ -101,25 +93,19 @@
 </script>
 
 <template>
-  <modalComp />
+  <ModalComp />
   <header class="w-full h-20 text-white z-50 bg-rose-500 shrink-0">
     <ProgressBar :loading="progressStore.loading" />
     <nav class="flex h-full justify-around items-center">
 
-      <strong class="text-5xl cursor-pointer">YCN</strong>
+      <RouterLink :to="{ name: 'home' }" class="text-5xl cursor-pointer">YCN</RouterLink>
 
       <div class="flex grow max-w-[40%] relative">
         <input @input="showSearchResult" v-model="query" class="text-black border-none rounded-ss-3xl w-auto flex grow text-xl rounded-es-3xl focus:ring-0 focus:outline-none pl-5">
         <MagnifyingComp class="size-12 p-3 bg-gray-100 rounded-se-3xl rounded-ee-3xl cursor-pointer"/>
 
         <div :class="resultStatus ? 'scale-100' : 'scale-0'" class="absolute bg-gray-900 custom-shadow custom-scrollbar w-full max-h-96 overflow-y-scroll top-20 px-5 py-3 origin-top flex flex-col gap-y-2 transition-all">
-          <div v-for="product in productsBasedOnQuery" :key="product.id" @click="redirectToProduct(product)" class="flex items-center gap-x-2">
-            <div class="size-10 bg-white relative">
-              <img :class="{'opacity-0 absolute': imgIsLoading, 'opacity-100': !imgIsLoading}" @load="handleImageLoad" class="object-contain size-full" loading="lazy" alt="Product Image in Search" :src="product.image">
-              <span v-show="imgIsLoading" class="loading loading-spinner text-rose-500"></span>
-            </div>
-            <span>{{ truncatedTitle(product.title) }}</span>
-          </div>
+          <ResultComp v-for="product in productsBasedOnQuery" :key="product.id" @click="redirectToProduct(product)" :product />
         </div>
       </div>
 
