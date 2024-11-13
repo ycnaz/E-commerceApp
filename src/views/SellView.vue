@@ -1,11 +1,19 @@
 <script setup>
+const props = defineProps({
+    id: {
+        required: false
+    }
+})
+
 import { useCategoryStore } from '@/stores/categoryStore';
+import { useUserAuthStore } from '@/stores/userAuthStore';
 import { useProductStore } from '@/stores/productStore';
 import { useRouter } from 'vue-router';
 import ItemCard from '@/components/ItemCard.vue';
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
 const categoryStore = useCategoryStore()
+const userAuthStore = useUserAuthStore()
 const productStore = useProductStore()
 const router = useRouter()
 
@@ -14,30 +22,57 @@ const productPrice = ref(0)
 const productCategory = ref('')
 const productDescription = ref('')
 const productImage = ref(null)
-const productImageUrl = ref('')
+const productImageURL = ref('')
 
+const editing = ref(false)
 const preview = ref(false)
 
 const handleImageUpload = (event) => {
     const file = event.target.files[0]
     if (file) {
         productImage.value = file
-        productImageUrl.value = URL.createObjectURL(file)
+        productImageURL.value = URL.createObjectURL(file)
     }
 }
 
 const item = computed(() => {
-    return { title: productTitle.value, price: productPrice.value, category: productCategory.value, description: productDescription.value, image: productImageUrl.value}
+    return { title: productTitle.value, price: productPrice.value, category: productCategory.value, description: productDescription.value, image: productImageURL.value}
 })
 
 const handleProduct = () => {
     if (!preview.value) {
         preview.value = true
     } else {
-        productStore.addToItems(item.value)
+        if (!editing.value) {
+            productStore.addToItems(item.value)
+        } else {
+            productStore.editAnItem(props.id)
+        }
         router.push({ name: 'products' })
     }
 }
+
+const getProductWithId = (id) => {
+    const item = productStore.items.find(item => item.id == id)
+    if (item && userAuthStore.userId === item.userId) {
+        editing.value = true
+        productTitle.value = item.title
+        productPrice.value = item.price
+        productCategory.value = item.category
+        productDescription.value = item.description
+        productImageURL.value = item.image
+    }
+}
+
+const buttonTitle = computed(() => {
+    if (!editing.value && !preview.value) return 'Preview'
+    else if (editing.value && !preview.value) return 'Update'
+    else return 'Publish' 
+})
+
+onMounted(() => {
+    if (props.id) getProductWithId(props.id)
+})
 </script>
 
 <template>
@@ -67,7 +102,7 @@ const handleProduct = () => {
                     <input @change="handleImageUpload" type="file" id="image" accept="image/*" required>
                 </div>
             </div>
-            <button class="bg-rose-500 h-10 text-white hover:bg-rose-400 focus:bg-rose-400 active:bg-rose-600 transition-all">{{ preview ? 'Publish' : 'Preview' }}</button>
+            <button class="bg-rose-500 h-10 text-white hover:bg-rose-400 focus:bg-rose-400 active:bg-rose-600 transition-all">{{ buttonTitle }}</button>
         </form>
 
         <ItemCard v-if="preview" :item :disabled="true" />

@@ -12,15 +12,13 @@ const props = defineProps({
 import { useExchangeStore } from '@/stores/exchangeStore';
 import { useUserAuthStore } from '@/stores/userAuthStore';
 import { useModalStore } from '@/stores/modalStore';
-import { useToast } from 'vue-toastification';
 import { useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 const exchangeStore = useExchangeStore()
 const userAuthStore = useUserAuthStore()
 const modalStore = useModalStore()
 const router = useRouter()
-const toast = useToast()
 
 const changePrices = (price) => {
     return Math.round(price * exchangeStore.latest.rates[exchangeStore.userPref])
@@ -32,9 +30,15 @@ const handleImageLoad = () => {
     imgIsLoading.value = false
 }
 
+const editCheck = computed(() => {
+    if (userAuthStore.isAuth && userAuthStore.userId === props.item.userId) {
+        return true
+    } else return false
+})
+
 const openProductModal = () => {
-    if (userAuthStore.userId === props.item.userId) {
-        toast.error('This is your own product')
+    if (editCheck.value) {
+        router.push({ name: 'sell', params: { id: props.item.id } })
     } else {
         if (userAuthStore.isAuth) {
             modalStore.setProduct(props.item)
@@ -53,6 +57,6 @@ const openProductModal = () => {
             <span v-show="imgIsLoading" class="loading loading-spinner text-rose-500"></span>
             <strong class="text-2xl font-normal mt-auto bg-rose-500 w-48 shadow-lg text-center text-white absolute bottom-0">{{ exchangeStore.userPref ? changePrices(props.item.price) : Math.round(props.item.price) }}/{{ exchangeStore.userPref ? exchangeStore.userPref : 'USD' }}</strong>
         </div>
-        <button @click="openProductModal" :disabled="props.disabled" class="bg-gray-800 text-white w-24 h-10 rounded-3xl font-light mt-5 shadow-lg hover:ring hover:ring-gray-800 hover:ring-offset-2 hover:ring-offset-gray-200 focus:ring focus:ring-gray-800 focus:ring-offset-2 focus:ring-offset-gray-200 active:ring active:ring-gray-800 active:ring-offset-2 active:ring-offset-gray-200 transition-all">BUY</button>
+        <button @click="openProductModal" :disabled="props.disabled" class="bg-gray-800 text-white w-24 h-10 rounded-3xl font-light mt-5 shadow-lg hover:ring hover:ring-gray-800 hover:ring-offset-2 hover:ring-offset-gray-200 focus:ring focus:ring-gray-800 focus:ring-offset-2 focus:ring-offset-gray-200 active:ring active:ring-gray-800 active:ring-offset-2 active:ring-offset-gray-200 transition-all">{{ editCheck ? 'EDIT' : 'BUY' }}</button>
     </li>
 </template>

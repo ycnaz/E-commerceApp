@@ -53,9 +53,10 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/sell',
+      path: '/sell/:id?',
       name: 'sell',
       component: () => import('../views/SellView.vue'),
+      props: route => ({ id: route.params.id || null }),
       meta: { requiresAuth: true }
     }
   ],

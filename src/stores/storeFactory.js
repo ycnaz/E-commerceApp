@@ -35,10 +35,24 @@ export function createFetchStore(storeName, endpoint) {
             if (userAuthStore.userId) {
                 newItem.userId = userAuthStore.userId
                 items.value.push(newItem)
-                console.log(newItem)
             }
         }
 
-        return { items, loading, error, fetchAll, addToItems }
+        const editAnItem = async (id, item) => {
+            const userAuthStore = useUserAuthStore()
+            const itemIndex = items.value.findIndex(item => item.id === id)
+            if ((userAuthStore.isAuth && itemIndex !== -1) && (userAuthStore.userId === items.value[itemIndex].userId)) {
+                items.value[itemIndex] = { ...items.value[itemIndex], ...item}
+            }
+        }
+
+        const removeAnItem = async (id) => {
+            const userAuthStore = useUserAuthStore()
+            if (userAuthStore.isAuth) {
+                items.value.filter(item => item.id !== id)
+            }
+        }
+
+        return { items, loading, error, fetchAll, addToItems, editAnItem, removeAnItem }
     });
 }
