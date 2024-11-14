@@ -40,7 +40,7 @@ export function createFetchStore(storeName, endpoint) {
 
         const editAnItem = async (id, item) => {
             const userAuthStore = useUserAuthStore()
-            const itemIndex = items.value.findIndex(item => item.id === id)
+            const itemIndex = items.value.findIndex(item => item.id == id)
             if ((userAuthStore.isAuth && itemIndex !== -1) && (userAuthStore.userId === items.value[itemIndex].userId)) {
                 items.value[itemIndex] = { ...items.value[itemIndex], ...item}
             }

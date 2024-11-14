@@ -11,6 +11,7 @@ const modalStore = useModalStore()
 const toast = useToast()
 
 const productQuantity = ref(0)
+const selectedRating = ref(null)
 
 const imgIsLoading = ref(true)
 
@@ -44,6 +45,17 @@ const addToCart = () => {
     toast.success('Item added to cart successfully')
     userAuthStore.addToCart({ "productId": modalStore.product.id, "quantity": productQuantity.value })
 }
+
+const submitRating = () => {
+    const product = modalStore.product
+    if (selectedRating.value) {
+        const totalRatingScore = product.rating.rate * product.rating.count
+        product.rating.count += 1
+        product.rating.rate = (totalRatingScore + selectedRating.value) / product.rating.count
+        selectedRating.value = null
+        closeProductModal()
+    }
+}
 </script>
 
 <template>
@@ -69,6 +81,15 @@ const addToCart = () => {
                                 <div @click="handleQuantity('+')" class="flex justify-center items-center size-10 cursor-pointer text-3xl rounded-full hover:bg-rose-400 transition-all">+</div>
                             </div>
                         </section>
+                        <span>Rating: {{ modalStore.product.rating.rate.toFixed(1) }}/5 ({{ modalStore.product.rating.count }})</span>
+                        <div class="rating">
+                            <input type="radio" v-model="selectedRating" :value="1" name="rating-1" class="mask mask-star-2 text-amber-600" />
+                            <input type="radio" v-model="selectedRating" :value="2" name="rating-1" class="mask mask-star-2 text-amber-600" checked="checked" />
+                            <input type="radio" v-model="selectedRating" :value="3" name="rating-1" class="mask mask-star-2 text-amber-600" />
+                            <input type="radio" v-model="selectedRating" :value="4" name="rating-1" class="mask mask-star-2 text-amber-600" />
+                            <input type="radio" v-model="selectedRating" :value="5" name="rating-1" class="mask mask-star-2 text-amber-600" />
+                        </div>
+                        <button @click="submitRating" class="bg-gray-800 py-2 px-3 rounded-lg">Rate</button>
                         <span class="mt-auto mb-5 text-3xl">Total price: {{ exchangeStore.userPref ? changePrices(modalStore.product.price) * productQuantity : modalStore.product.price * productQuantity }}/{{ exchangeStore.userPref ? exchangeStore.userPref : 'USD' }}</span>
                         <button @click="addToCart" class="w-full shrink-0 h-10 bg-gray-800 hover:bg-gray-700 transition-all">Add to Cart</button>
                     </div>

@@ -46,7 +46,7 @@ const handleProduct = () => {
         if (!editing.value) {
             productStore.addToItems(item.value)
         } else {
-            productStore.editAnItem(props.id)
+            productStore.editAnItem(props.id, item.value)
         }
         router.push({ name: 'products' })
     }
@@ -99,7 +99,7 @@ onMounted(() => {
                     <textarea v-model="productDescription" class="min-h-10 max-h-[115px]" id="description" required></textarea>
             
                     <label for="image">Image</label>
-                    <input @change="handleImageUpload" type="file" id="image" accept="image/*" required>
+                    <input @change="handleImageUpload" type="file" id="image" accept="image/*" :required="!editing">
                 </div>
             </div>
             <button class="bg-rose-500 h-10 text-white hover:bg-rose-400 focus:bg-rose-400 active:bg-rose-600 transition-all">{{ buttonTitle }}</button>
