@@ -22,9 +22,9 @@ import ItemCard from './ItemCard.vue';
 </script>
 
 <template>
-    <div class="h-[500px]">
+    <div class="h-[500px] max-xl:w-full">
         <figure class="w-full h-full flex flex-col items-center">
-            <div class="flex flex-col gap-y-5 min-w-[74%] h-full">
+            <div class="flex flex-col gap-y-5 min-w-[74%] max-w-full h-full overflow-x-auto">
                 <div class="flex">
                     <figcaption class="self-start text-3xl font-medium">{{ props.title }}</figcaption>
                     <RouterLink :to="{ name: 'products', params: { category: props.category }}" class="underline ml-auto place-self-end cursor-pointer hover:text-gray-500 focus:text-gray-500 focus:outline-none">See all</RouterLink>

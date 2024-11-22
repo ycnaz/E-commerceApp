@@ -7,6 +7,7 @@
   import { useUserAuthStore } from './stores/userAuthStore';
   import { useProgressStore } from './stores/progressStore';
   import { useProductStore } from './stores/productStore';
+  import { useBurgerStore } from './stores/burgerStore';
   import { useModalStore } from './stores/modalStore';
   import ProgressBar from './components/ProgressBar.vue';
   import ModalComp from './components/ModalComp.vue';
@@ -22,6 +23,7 @@
   const userAuthStore = useUserAuthStore()
   const progressStore = useProgressStore()
   const productStore = useProductStore()
+  const burgerStore = useBurgerStore()
   const modalStore = useModalStore()
 
   const userCartItemNum = computed(() => userAuthStore.userCart.length)
@@ -83,10 +85,8 @@
     modalStore.setProduct(product)
   }
 
-  const isHamburgerOpen = ref(false)
-
   const toggleHamburger = () => {
-    isHamburgerOpen.value = !isHamburgerOpen.value
+    burgerStore.toggle()
   }
 
   onMounted(() => {
@@ -106,8 +106,8 @@
 
       <RouterLink :to="{ name: 'home' }" class="text-5xl cursor-pointer">YCN</RouterLink>
 
-      <div class="flex justify-between items-center w-full max-xl:hidden">
-        <div class="flex grow max-w-[40%] relative">
+      <div :class="['flex justify-between items-center w-full max-xl:flex-col max-xl:fixed max-xl:w-96 max-xl:h-full max-xl:bg-black max-xl:gap-y-5 max-xl:top-0 transition-all', burgerStore.isOpen ? 'max-xl:right-0' : 'max-xl:-right-96']">
+        <div class="flex order-1 grow relative max-xl:order-3">
           <input @input="showSearchResult" v-model="query" class="text-black border-none rounded-ss-3xl w-auto flex grow text-xl rounded-es-3xl focus:ring-0 focus:outline-none pl-5">
           <MagnifyingComp class="size-12 p-3 bg-gray-100 rounded-se-3xl rounded-ee-3xl cursor-pointer"/>
   
@@ -116,15 +116,15 @@
           </div>
         </div>
   
-        <div class="flex h-full relative">
+        <div class="flex order-2 h-full relative max-xl:flex-col max-xl:order-1">
   
-          <RouterLink v-for="link in navLinks" :class="{ 'active': isActive(link.url) }" :key="link.id" :to="link.url" class="group flex items-center justify-center hover:bg-rose-400 focus:outline-none w-28 h-full relative transition-all duration-300">
+          <RouterLink v-for="link in navLinks" :class="{ 'active': isActive(link.url) }" :key="link.id" :to="link.url" class="group flex items-center justify-center hover:bg-rose-400 focus:outline-none w-28 h-full relative transition-all duration-300 max-xl:h-12">
             <div class="max-w-max relative">
               <span class="focus:outline-none before:absolute before:bottom-0 before:left-1/2 before:w-0 before:h-[2px] before:bg-white before:-translate-x-1/2 group-hover:before:w-full group-focus:before:w-full group-active:before:w-full before:transition-all before:duration-300">{{ link.name }}</span>
             </div>
           </RouterLink>
   
-          <button class="group flex justify-center items-center gap-2 h-full w-28 hover:bg-rose-400 transition-all duration-300 relative">
+          <button class="group flex justify-center items-center gap-2 h-full w-28 hover:bg-rose-400 transition-all duration-300 relative max-xl:h-12">
             <span class="relative focus:outline-none before:absolute before:bottom-0 before:left-1/2 before:w-0 before:h-[2px] before:bg-white before:-translate-x-1/2 group-hover:before:w-full group-focus:before:w-full group-active:before:w-full before:transition-all before:duration-300">Categories</span>
             <ChevronComp class="size-5 group-focus:rotate-180 transition-all" />
             <section class="flex flex-col items-center custom-shadow absolute top-24 right-0 p-3 rounded-md cursor-default gap-y-1 bg-white text-black size-fit min-w-40 scale-0 group-focus:scale-100 transition-all origin-top-right">
@@ -135,7 +135,7 @@
             </section>
           </button>
   
-          <button class="group flex justify-center items-center gap-2 h-full w-28 hover:bg-rose-400 transition-all duration-300 relative">
+          <button class="group flex justify-center items-center gap-2 h-full w-28 hover:bg-rose-400 transition-all duration-300 relative max-xl:h-12">
             <span class="relative focus:outline-none before:absolute before:bottom-0 before:left-1/2 before:w-0 before:h-[2px] before:bg-white before:-translate-x-1/2 group-hover:before:w-full group-focus:before:w-full group-active:before:w-full before:transition-all before:duration-300">{{ exchangeStore.userPref ? exchangeStore.userPref : 'Currency' }}</span>
             <ChevronComp class="size-5 group-focus:rotate-180 transition-all" />
             <section class="custom-shadow absolute top-24 right-0 p-3 rounded-md cursor-default gap-y-1 bg-white text-black h-[500px] w-[800px] scale-0 group-focus:scale-100 transition-all origin-top-right">
@@ -148,20 +148,20 @@
   
         </div>
         
-        <RouterLink :to="{ name: 'cart' }" :class="{ 'indicator': userCartItemNum }" class="rounded-full hover:bg-rose-400 transition-all duration-300 focus:outline-none focus:bg-rose-400 active:bg-rose-400">
+        <RouterLink :to="{ name: 'cart' }" :class="{ 'indicator': userCartItemNum }" class="rounded-full order-3 hover:bg-rose-400 transition-all duration-300 focus:outline-none focus:bg-rose-400 active:bg-rose-400 max-xl:order-2">
           <span v-if="userCartItemNum" class="indicator-item badge bg-amber-500">{{ userCartItemNum }}</span>
           <CartComp class="size-12 p-2 rounded-full cursor-pointer" />
         </RouterLink>
   
-        <RouterLink @mousedown="userAuthStore.signOut" :to="{ name: 'sign-in' }" class="rounded px-3 py-2 hover:bg-rose-400 focus:bg-rose-600 focus:outline-none transition-all duration-300">
+        <RouterLink @mousedown="userAuthStore.signOut" :to="{ name: 'sign-in' }" class="rounded order-4 px-3 py-2 hover:bg-rose-400 focus:bg-rose-600 focus:outline-none transition-all duration-300">
           {{ userAuthStore.isAuth ? 'Sign out' : 'Sign in' }}
         </RouterLink>
       </div>
 
-      <div @click="toggleHamburger" class="flex flex-col gap-y-2 cursor-pointer xl:hidden">
-        <div :class="['w-10 bg-white h-1 rounded-lg transition-all', isHamburgerOpen ? 'rotate-45 translate-y-[6px]' : '' ]"></div>
-        <div :class="['w-10 bg-white h-1 rounded-lg transition-all', isHamburgerOpen ? 'hidden' : '' ]"></div>
-        <div :class="['w-10 bg-white h-1 rounded-lg transition-all', isHamburgerOpen ? '-rotate-45 -translate-y-[6px]' : '' ]"></div>
+      <div @click="toggleHamburger" :class="['flex flex-col px-2 py-3 gap-y-2 cursor-pointer xl:hidden z-20', {'fixed top-4 right-4': burgerStore.isOpen}]">
+        <div :class="['w-10 bg-white h-1 rounded-lg transition-all', burgerStore.isOpen ? 'rotate-45 translate-y-[6px]' : '' ]"></div>
+        <div :class="['w-10 bg-white h-1 rounded-lg transition-all', burgerStore.isOpen ? 'hidden' : '' ]"></div>
+        <div :class="['w-10 bg-white h-1 rounded-lg transition-all', burgerStore.isOpen ? '-rotate-45 -translate-y-[6px]' : '' ]"></div>
       </div>
 
     </nav>

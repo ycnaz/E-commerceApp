@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import { useProgressStore } from '@/stores/progressStore';
 import { useUserAuthStore } from '@/stores/userAuthStore';
+import { useBurgerStore } from '@/stores/burgerStore';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -71,8 +72,11 @@ router.beforeEach((to, from, next) => {
 
   const progressStore = useProgressStore()
   const userAuthStore = useUserAuthStore()
+  const burgerStore = useBurgerStore()
 
   progressStore.setLoading(true)
+
+  if (burgerStore.isOpen) burgerStore.close()
 
   if (to.meta.requiresAuth && !userAuthStore.isAuth) {
     next({
