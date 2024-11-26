@@ -1,6 +1,6 @@
 <script setup>
   import { RouterView, RouterLink, useRouter, useRoute } from 'vue-router'
-  import { computed, defineAsyncComponent, onMounted, ref } from 'vue';
+  import { computed, defineAsyncComponent, onMounted, onUnmounted, ref } from 'vue';
   import { useToast } from 'vue-toastification';
   import { useExchangeStore } from './stores/exchangeStore';
   import { useCategoryStore } from './stores/categoryStore';
@@ -89,12 +89,27 @@
     burgerStore.toggle()
   }
 
+  const isLargeScreen = ref(true)
+
+  const checkScreenSize = () => {
+    isLargeScreen.value = window.innerWidth >= 1280
+    if (isLargeScreen.value)
+      burgerStore.close()
+  }
+
   onMounted(() => {
     categoryStore.fetchAll()
     productStore.fetchAll()
+    checkScreenSize()
+  
+    window.addEventListener('resize', checkScreenSize)
     if (userAuthStore.isAuth) {
       getUserData()
     }
+  })
+
+  onUnmounted(() => {
+    window.removeEventListener('resize', checkScreenSize)
   })
 </script>
 
@@ -102,11 +117,12 @@
   <ModalComp />
   <header class="w-full h-20 text-white z-50 bg-rose-500 shrink-0">
     <ProgressBar :loading="progressStore.loading" />
+    <div v-if="burgerStore.isOpen" class="fixed top-0 h-screen w-screen bg-black z-[60] opacity-60"></div>
     <nav class="flex h-full items-center px-5 gap-x-5 max-xl:justify-between">
 
-      <RouterLink :to="{ name: 'home' }" class="text-5xl cursor-pointer">YCN</RouterLink>
+      <RouterLink :to="{ name: 'home' }" class="text-5xl cursor-pointer min-w-max">E-Shop</RouterLink>
 
-      <div :class="['flex justify-between items-center w-full max-xl:flex-col max-xl:fixed max-xl:w-96 max-xl:h-full max-xl:bg-black max-xl:gap-y-5 max-xl:top-0 transition-all', burgerStore.isOpen ? 'max-xl:right-0' : 'max-xl:-right-96']">
+      <div :class="['flex justify-between items-center w-full xl:h-full xl:gap-x-5 max-xl:flex-col max-xl:fixed max-xl:w-96 max-xl:h-full max-xl:bg-black max-xl:gap-y-5 max-xl:top-0 transition-all', burgerStore.isOpen ? 'max-xl:right-0 z-[70]' : 'max-xl:-right-96']">
         <div class="flex order-1 grow relative max-xl:order-3">
           <input @input="showSearchResult" v-model="query" class="text-black border-none rounded-ss-3xl w-auto flex grow text-xl rounded-es-3xl focus:ring-0 focus:outline-none pl-5">
           <MagnifyingComp class="size-12 p-3 bg-gray-100 rounded-se-3xl rounded-ee-3xl cursor-pointer"/>
@@ -158,7 +174,7 @@
         </RouterLink>
       </div>
 
-      <div @click="toggleHamburger" :class="['flex flex-col px-2 py-3 gap-y-2 cursor-pointer xl:hidden z-20', {'fixed top-4 right-4': burgerStore.isOpen}]">
+      <div @click="toggleHamburger" :class="['flex flex-col px-2 py-3 gap-y-2 cursor-pointer xl:hidden z-20', {'fixed top-4 right-4 z-[70]': burgerStore.isOpen}]">
         <div :class="['w-10 bg-white h-1 rounded-lg transition-all', burgerStore.isOpen ? 'rotate-45 translate-y-[6px]' : '' ]"></div>
         <div :class="['w-10 bg-white h-1 rounded-lg transition-all', burgerStore.isOpen ? 'hidden' : '' ]"></div>
         <div :class="['w-10 bg-white h-1 rounded-lg transition-all', burgerStore.isOpen ? '-rotate-45 -translate-y-[6px]' : '' ]"></div>
