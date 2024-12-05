@@ -62,13 +62,13 @@ const handleQuantity = (action, id) => {
                     <td class="p-5">
                         <div class="flex gap-x-5 items-center">
                             <span @click="$emit('removeProduct', product.product.id)" class="text-2xl cursor-pointer">&times;</span>
-                            <div class="flex justify-center items-center bg-white size-40 rounded-lg">
-                                <img :class="{'opacity-0 absolute': imgIsLoading, 'opacity-100': !imgIsLoading}" @load="handleImageLoad" loading="lazy" alt="Product Image" class="size-32 object-contain" :src="product.product.image">
+                            <div class="flex justify-center items-center bg-white size-40 shrink-0 rounded-lg">
+                                <img :class="{'opacity-0 absolute': imgIsLoading, 'opacity-100': !imgIsLoading}" @load="handleImageLoad" loading="lazy" alt="Product Image" class="size-32 object-contain shrink-0" :src="product.product.image">
                                 <span v-show="imgIsLoading" class="loading loading-spinner text-rose-500"></span>
                             </div>
                             <section class="flex flex-col justify-center">
-                                <span class="font-semibold underline">{{ product.product.category.charAt(0).toUpperCase() + product.product.category.slice(1) }}</span>
-                                <h4 class="max-w-96 line-clamp-3 text-xl">{{ product.product.title }}</h4>
+                                <span class="font-semibold underline min-w-max">{{ product.product.category.charAt(0).toUpperCase() + product.product.category.slice(1) }}</span>
+                                <h4 class="max-w-96 line-clamp-3 text-xl max-xl:text-sm">{{ product.product.title }}</h4>
                             </section>
                         </div>
                     </td>

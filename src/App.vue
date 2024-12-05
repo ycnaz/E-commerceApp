@@ -187,43 +187,43 @@
     <RouterView />
   </main>
 
-  <footer class="w-full h-64 bg-gray-300 flex items-center mt-auto shrink-0">
-    <div class="w-full flex justify-evenly">
-      <nav @click="footerToast" class="flex flex-col">
+  <footer class="w-full h-auto p-5 min-h-64 bg-gray-300 flex items-center mt-auto shrink-0">
+    <div class="w-full grid grid-cols-5 gap-y-5 max-md:grid-cols-4 max-sm:grid-cols-3 max-[480px]:grid-cols-2" id="footer">
+      <nav @click="footerToast" class="flex flex-col items-center">
         <h6>BUY</h6>
-        <span>Registration</span>
-        <span>Bidding & buying help</span>
-        <span>Stores</span>
-        <span>Seasonal Sales and events</span>
-        <span>Gift Cards</span>      
+        <p>Registration</p>
+        <p>Bidding & buying help</p>
+        <p>Stores</p>
+        <p>Seasonal Sales and events</p>
+        <p>Gift Cards</p>      
       </nav>
-      <nav @click="footerToast" class="flex flex-col">
+      <nav @click="footerToast" class="flex flex-col items-center">
         <h6>SELL</h6>
-        <span>Start selling</span>
-        <span>How to sell</span>
-        <span>Business sellers</span>
-        <span>Affiliates</span>
+        <p>Start selling</p>
+        <p>How to sell</p>
+        <p>Business sellers</p>
+        <p>Affiliates</p>
       </nav>
-      <nav @click="footerToast" class="flex flex-col">
+      <nav @click="footerToast" class="flex flex-col items-center">
         <h6>ABOUT US</h6>
-        <span>Company info</span>
-        <span>News</span>
-        <span>Investors</span>
-        <span>Careers</span>
-        <span>Policies</span>
+        <p>Company info</p>
+        <p>News</p>
+        <p>Investors</p>
+        <p>Careers</p>
+        <p>Policies</p>
       </nav>
-      <nav @click="footerToast" class="flex flex-col">
+      <nav @click="footerToast" class="flex flex-col items-center">
         <h6>HELP & CONTACT</h6>
-        <span>Seller Center</span>
-        <span>Contact Us</span>
-        <span>Returns</span>
-        <span>Money Back Guarantee</span>    
+        <p>Seller Center</p>
+        <p>Contact Us</p>
+        <p>Returns</p>
+        <p>Money Back Guarantee</p>    
       </nav>
-      <nav @click="footerToast" class="flex flex-col">
+      <nav @click="footerToast" class="flex flex-col items-center">
         <h6>FOLLOW US</h6>
-        <span>Instagram</span>
-        <span>Facebook</span>
-        <span>Twitter</span>
+        <p>Instagram</p>
+        <p>Facebook</p>
+        <p>Twitter</p>
       </nav>
     </div>
   </footer>
@@ -252,5 +252,13 @@ nav > span {
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background-color: #4b5563 !important;
+}
+
+#footer > nav > p {
+  @apply text-gray-500 min-w-max
+}
+
+#footer > nav > h6 {
+  @apply min-w-max
 }
 </style>

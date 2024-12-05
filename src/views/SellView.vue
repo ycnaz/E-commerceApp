@@ -76,19 +76,19 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="h-full flex gap-x-20 justify-center items-center">
-        <form @submit.prevent="handleProduct" class="flex flex-col text-black gap-y-5">
+    <div class="h-full flex gap-x-20 justify-center items-center max-xl:flex-col max-xl:pb-5">
+        <form @submit.prevent="handleProduct" class="flex flex-col text-black gap-y-5 py-5 max-[430px]:w-full max-[430px]:px-5">
             <h2 class="text-5xl font-semibold border-b border-b-black w-full">Sell</h2>
-            <div class="flex gap-x-10">
+            <div class="flex gap-x-10 max-md:flex-col">
                 <div class="flex flex-col">
                     <label for="title">Title</label>
-                    <input v-model="productTitle" class="w-96" type="text" id="title" required>
+                    <input v-model="productTitle" class="w-96 max-[430px]:w-full" type="text" id="title" required>
             
                     <label for="price">Price</label>
-                    <input v-model="productPrice" class="w-96" type="number" id="price" required>
+                    <input v-model="productPrice" class="w-96 max-[430px]:w-full" type="number" id="price" required>
             
                     <label for="category">Category</label>
-                    <select v-model="productCategory" class="w-96" id="category" required>
+                    <select v-model="productCategory" class="w-96 max-[430px]:w-full" id="category" required>
                         <option disabled value="">Choose...</option>
                         <option v-for="category in categoryStore.items" :key="category" :value="category">{{ category.charAt(0).toUpperCase() + category.slice(1) }}</option>
                     </select>
