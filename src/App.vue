@@ -188,7 +188,7 @@
   </main>
 
   <footer class="w-full h-auto p-5 min-h-64 bg-gray-300 flex items-center mt-auto shrink-0">
-    <div class="w-full grid grid-cols-5 gap-y-5 max-md:grid-cols-4 max-sm:grid-cols-3 max-[480px]:grid-cols-2" id="footer">
+    <div class="w-full grid grid-cols grid-cols-[repeat(auto-fit,_minmax(150px,_1fr))] gap-y-5" id="footer">
       <nav @click="footerToast" class="flex flex-col items-center">
         <h6>BUY</h6>
         <p>Registration</p>

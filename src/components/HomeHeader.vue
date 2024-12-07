@@ -20,7 +20,7 @@ const isImgLoading = ref(true)
             <span class="text-xl">And buy the best products from all over the world</span>
         </div>
         <img :class="{'opacity-0 absolute': isImgLoading, 'opacity-100': !isImgLoading}" class="max-xl:absolute max-xl:size-[600px] max-xl:bottom-0 max-xl:blur max-sm:hidden" @load="isImgLoading = false" loading="lazy" alt="Header Image" src="../assets/images/shoe-bg.png">
-        <span v-if="isImgLoading" class="loading loading-spinner text-black"></span>
+        <span v-if="isImgLoading" class="loading loading-spinner text-black max-sm:hidden"></span>
         <button class="group">
             <ChevronDown @click="scrollDown" class="size-12 shadow-xl bg-white rounded-full p-2 absolute cursor-pointer group-hover:scale-110 group-focus:scale-110 -bottom-6 left-1/2 -translate-x-1/2 transition-all"/>
         </button>

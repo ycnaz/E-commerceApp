@@ -49,7 +49,7 @@ const handleQuantity = (action, id) => {
     <section class="flex flex-col grow">
         <h1 class="text-4xl font-semibold mb-3">Shopping Cart</h1>
         <table class="table table-pin-rows rounded-none bg-gray-200">
-            <thead>
+            <thead class="max-md:hidden">
                 <tr class="border-bottom border-black bg-gray-200">
                     <th>Products</th>
                     <th>Price</th>
@@ -57,7 +57,8 @@ const handleQuantity = (action, id) => {
                     <th>Total Price</th>
                 </tr>
             </thead>
-            <tbody v-if="products">
+
+            <tbody v-if="products" class="max-md:hidden">
                 <tr v-for="product in products" :key="product.product.id" class="border-black">
                     <td class="p-5">
                         <div class="flex gap-x-5 items-center">
@@ -86,6 +87,48 @@ const handleQuantity = (action, id) => {
                     </td>
                     <td class="font-bold">{{ changePrices(product.product.price * product.quantity) }}</td>
                 </tr>
+            </tbody>
+
+            <tbody v-if="products" class="hidden max-md:table-row-group">
+                <template v-for="product in products" :key="product.product.id">
+                    <tr class="border-black">
+                        <td class="p-5 max-md:first:w-full">
+                            <div class="flex gap-x-5 items-center">
+                                <span @click="$emit('removeProduct', product.product.id)" class="text-2xl cursor-pointer">&times;</span>
+                                <div class="flex justify-center items-center bg-white size-40 shrink-0 rounded-lg">
+                                    <img :class="{'opacity-0 absolute': imgIsLoading, 'opacity-100': !imgIsLoading}" @load="handleImageLoad" loading="lazy" alt="Product Image" class="size-32 object-contain shrink-0" :src="product.product.image">
+                                    <span v-show="imgIsLoading" class="loading loading-spinner text-rose-500"></span>
+                                </div>
+                                <section class="flex flex-col justify-center">
+                                    <span class="font-semibold underline min-w-max">{{ product.product.category.charAt(0).toUpperCase() + product.product.category.slice(1) }}</span>
+                                    <h4 class="max-w-96 line-clamp-3 text-xl max-xl:text-sm">{{ product.product.title }}</h4>
+                                </section>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="border-black">
+                        <th class="w-1/4 bg-gray-200">Price</th>
+                        <td class="font-bold">{{ changePrices(product.product.price) }}</td>
+                    </tr>
+                    <tr class="border-black">
+                        <th class="w-1/4 bg-gray-200">Quantity</th>
+                        <td class="font-bold">
+                            <div class="flex gap-x-5 items-center">
+                                <div @click="handleQuantity('-', product.product.id)" class="rounded-full size-8 flex justify-center items-center cursor-pointer">
+                                    <span class="text-2xl">-</span>
+                                </div>
+                                <span>{{ product.quantity }}</span>
+                                <div @click="handleQuantity('+', product.product.id)" class="rounded-full size-8 flex justify-center items-center cursor-pointer">
+                                    <span class="text-2xl">+</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="border-black">
+                        <th class="w-1/4 bg-gray-200">Total Price</th>
+                        <td class="font-bold">{{ changePrices(product.product.price * product.quantity) }}</td>
+                    </tr>
+                </template>
             </tbody>
         </table>
         <div v-if="!products.length" class="flex justify-center items-center grow">
