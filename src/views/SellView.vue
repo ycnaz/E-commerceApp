@@ -82,13 +82,13 @@ onMounted(() => {
             <div class="flex gap-x-10 max-md:flex-col">
                 <div class="flex flex-col">
                     <label for="title">Title</label>
-                    <input v-model="productTitle" class="w-96 max-[430px]:w-full" type="text" id="title" required>
+                    <input v-model="productTitle" class="w-96 max-[430px]:w-full" type="text" id="title" aria-label="Product Title" required>
             
                     <label for="price">Price</label>
-                    <input v-model="productPrice" class="w-96 max-[430px]:w-full" type="number" id="price" required>
+                    <input v-model="productPrice" class="w-96 max-[430px]:w-full" type="number" min="1" max="100000000" step="0.01" id="price" aria-label="Product Price" required>
             
                     <label for="category">Category</label>
-                    <select v-model="productCategory" class="w-96 max-[430px]:w-full" id="category" required>
+                    <select v-model="productCategory" class="w-96 max-[430px]:w-full" id="category" aria-label="Product Category" required>
                         <option disabled value="">Choose...</option>
                         <option v-for="category in categoryStore.items" :key="category" :value="category">{{ category.charAt(0).toUpperCase() + category.slice(1) }}</option>
                     </select>
@@ -96,10 +96,10 @@ onMounted(() => {
 
                 <div class="flex flex-col">
                     <label for="description">Description</label>
-                    <textarea v-model="productDescription" class="min-h-10 max-h-[115px]" id="description" required></textarea>
+                    <textarea v-model="productDescription" class="min-h-10 max-h-[115px]" id="description" aria-label="Product Description" required></textarea>
             
                     <label for="image">Image</label>
-                    <input @change="handleImageUpload" type="file" id="image" accept="image/*" :required="!editing">
+                    <input @change="handleImageUpload" type="file" id="image" accept="image/*" aria-label="Product Image" :required="!editing">
                 </div>
             </div>
             <button class="bg-rose-500 h-10 text-white hover:bg-rose-400 focus:bg-rose-400 active:bg-rose-600 transition-all">{{ buttonTitle }}</button>

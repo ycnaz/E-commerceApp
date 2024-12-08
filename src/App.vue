@@ -127,7 +127,7 @@
           <input @input="showSearchResult" v-model="query" class="text-black border-none rounded-ss-3xl w-auto flex grow text-xl rounded-es-3xl focus:ring-0 focus:outline-none pl-5">
           <MagnifyingComp class="size-12 p-3 bg-gray-100 rounded-se-3xl rounded-ee-3xl cursor-pointer"/>
   
-          <div :class="resultStatus ? 'scale-100' : 'scale-0'" class="absolute bg-gray-900 custom-shadow custom-scrollbar w-full max-h-96 overflow-y-scroll top-20 px-5 py-3 origin-top flex flex-col gap-y-2 transition-all">
+          <div :class="resultStatus ? 'scale-100' : 'scale-0'" class="absolute bg-gray-900 custom-shadow custom-scrollbar w-full max-h-96 overflow-y-scroll top-20 px-5 py-3 origin-top flex flex-col gap-y-2 transition-all max-xl:-top-[400px] max-xl:z-10 max-xl:origin-bottom">
             <ResultComp v-for="product in productsBasedOnQuery" :key="product.id" @click="redirectToProduct(product)" :product />
           </div>
         </div>
@@ -154,12 +154,14 @@
           <button class="group flex justify-center items-center gap-2 h-full w-28 hover:bg-rose-400 transition-all duration-300 relative max-xl:h-12">
             <span class="relative focus:outline-none before:absolute before:bottom-0 before:left-1/2 before:w-0 before:h-[2px] before:bg-white before:-translate-x-1/2 group-hover:before:w-full group-focus:before:w-full group-active:before:w-full before:transition-all before:duration-300">{{ exchangeStore.userPref ? exchangeStore.userPref : 'Currency' }}</span>
             <ChevronComp class="size-5 group-focus:rotate-180 transition-all" />
-            <section class="custom-shadow absolute top-24 right-0 p-3 rounded-md cursor-default gap-y-1 bg-white text-black h-[500px] w-[800px] scale-0 group-focus:scale-100 transition-all origin-top-right">
+            
+            <section class="custom-shadow absolute top-24 right-0 p-3 rounded-md cursor-default gap-y-1 bg-white text-black h-[500px] w-[800px] scale-0 group-focus:scale-100 transition-all origin-top-right max-lg:w-screen max-lg:-right-32 max-lg:z-10">
               <h3 class="underline text-xl text-rose-500 text-start">Currencies</h3>
               <div class="flex flex-col flex-wrap h-full">
                 <span @click="selectedCurrency(code)" v-for="(name, code) in exchangeStore.currencies" :key="code" class="max-w-max cursor-pointer text-gray-500">{{ code }}</span>
               </div>
             </section>
+
           </button>
   
         </div>

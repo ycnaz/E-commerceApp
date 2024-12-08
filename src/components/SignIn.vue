@@ -40,7 +40,7 @@ const redirectAfterLogin = () => {
 </script>
 
 <template>
-    <div class="h-full flex flex-col justify-center items-center">
+    <div class="h-full flex flex-col justify-center items-center max-sm:py-5">
         <span v-if="userAuthStore.error" class="text-rose-500">{{ userAuthStore.error }}</span>
         <section>
             <h1 class="text-6xl mb-5 place-self-start">Sign in</h1>

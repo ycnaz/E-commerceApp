@@ -8,7 +8,6 @@ export const useModalStore = defineStore('modalStore', () => {
     const setProduct = (p) => {
         product.value = p
         isOpen.value = true
-        console.log('we here')
     }
 
     const resetProduct = () => {

@@ -85,8 +85,8 @@ onMounted(async () => {
 
         <ProductTable :products @removeProduct="removeProduct" />
 
-        <div class="flex flex-col w-96 max-lg:flex-row max-lg:w-full max-lg:h-64 max-lg:gap-x-5">
-            <div class="flex flex-col h-1/2 max-h-96 items-start justify-between max-lg:h-full max-lg:w-1/2">
+        <div class="flex flex-col w-96 max-lg:flex-row max-lg:w-full max-lg:h-64 max-sm:flex-col max-sm:w-full max-sm:min-h-min">
+            <div class="flex flex-col h-1/2 max-h-96 items-start justify-between max-lg:h-full max-lg:w-1/2 max-sm:w-full">
                 <div>
                     <h2 class="text-2xl font-semibold">Coupon Code</h2>
                     <p class="mt-3">Enter your coupon code to get a discount</p>
@@ -96,8 +96,8 @@ onMounted(async () => {
                     <button @click="handleCoupon" class="w-full bg-black text-white py-3 rounded-3xl hover:ring hover:ring-black hover:ring-offset-2 transition-all">Apply</button>
                 </div>
             </div>
-            <div class="w-full divider max-lg:hidden"></div>
-            <section class="flex flex-col h-1/2 max-h-96 bg-amber-300 p-3 rounded-lg max-lg:h-full max-lg:w-1/2">
+            <div class="w-full divider max-lg:divider-horizontal max-sm:divider-vertical"></div>
+            <section class="flex flex-col h-1/2 max-h-96 bg-amber-300 p-3 rounded-lg max-lg:h-full max-lg:w-1/2 max-sm:w-full">
                 <h2 class="text-2xl font-semibold mb-3">Cart Total</h2>
                 <div class="flex justify-between">
                     <span>Items:</span>
