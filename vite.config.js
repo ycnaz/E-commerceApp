@@ -6,6 +6,7 @@ import svgLoader from 'vite-svg-loader'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/E-commerceApp/',
   plugins: [
     vue(),
     svgLoader(),

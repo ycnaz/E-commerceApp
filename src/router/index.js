@@ -24,7 +24,7 @@ const router = createRouter({
       path: '/:pathMatch(.*)*',
       name: 'notFound',
       component: () => import('../components/NotFound.vue'),
-      props: route => ({ endpoint: route.params.pathMatch}),
+      props: route => ({ endpoint: route.params.pathMatch }),
       meta: { requiresAuth: false }
     },
     {

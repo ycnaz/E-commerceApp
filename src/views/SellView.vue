@@ -96,7 +96,7 @@ onMounted(() => {
 
                 <div class="flex flex-col">
                     <label for="description">Description</label>
-                    <textarea v-model="productDescription" class="min-h-10 max-h-[115px]" id="description" aria-label="Product Description" required></textarea>
+                    <textarea v-model="productDescription" class="min-h-10 max-h-[115px]" id="description" aria-label="Product Description" maxlength="500" required></textarea>
             
                     <label for="image">Image</label>
                     <input @change="handleImageUpload" type="file" id="image" accept="image/*" aria-label="Product Image" :required="!editing">
