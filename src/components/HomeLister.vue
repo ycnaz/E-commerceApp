@@ -29,7 +29,7 @@ import ItemCard from './ItemCard.vue';
                     <figcaption class="self-start text-3xl font-medium">{{ props.title }}</figcaption>
                     <RouterLink :to="{ name: 'products', params: { category: props.category }}" class="underline ml-auto place-self-end cursor-pointer hover:text-gray-500 focus:text-gray-500 focus:outline-none">See all</RouterLink>
                 </div>
-                <div class="horizontal-scroll-container flex justify-center items-center h-full w-full overflow-x-auto scroll-smooth scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-gray-500">
+                <div class="horizontal-scroll-container flex justify-center items-center h-full w-full overflow-x-auto scroll-smooth overflow-y-hidden scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-gray-500">
                     <ul v-if="!props.loading && props.data.length != 0" class="flex gap-x-5 min-w-full pb-4 max-xl:px-5">
                         <ItemCard v-for="item in props.data.slice(0, 4)" :key="item.id" class="w-min flex-shrink-0" :item />
                     </ul>

@@ -56,6 +56,6 @@ const validateInput = (event) => {
         </div>
         <EyeHide @click="inputType = 'text'" v-if="inputType === 'password' && (labelFor === 'password' || labelFor === 'confirm')" :class="{ 'opacity-0': !model }" class="size-8 absolute top-2 right-2 transition-all" />
         <EyeShow @click="inputType = 'password'" v-else-if="inputType === 'text' && (labelFor === 'password' || labelFor === 'confirm')" :class="{ 'opacity-0': !model }" class="size-8 absolute top-2 right-2 transition-all" />
-        <label :for="props.labelFor" :class="{ 'text-sm text-gray-500 top-3 left-2': model }" class="peer-focus-within:text-sm peer-focus-within:text-gray-500 peer-focus-within:top-3 peer-focus-within:left-2 absolute top-1/2 -translate-y-1/2 left-3 text-xl cursor-text transition-all">{{ props.labelText }}</label>
+        <label :for="props.labelFor" :class="{ 'text-sm text-gray-500 top-3 left-2': model }" class="peer-focus-within:text-sm peer-focus-within:text-gray-500 peer-focus-within:top-3 peer-focus-within:left-2 absolute top-1/2 -translate-y-1/2 left-3 text-xl cursor-text select-none transition-all">{{ props.labelText }}</label>
     </div>
 </template>

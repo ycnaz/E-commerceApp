@@ -52,7 +52,7 @@ const openProductModal = () => {
 <template>
     <li class="w-auto min-h-96 bg-gray-100 p-5 flex flex-col items-center rounded-3xl shadow-lg text-black">
         <h1 class="font-normal text-center line-clamp-2 mb-5">{{ props.item.title.toUpperCase() }}</h1>
-        <div class="size-64 bg-white rounded-full flex justify-center items-center shadow-lg mt-auto relative">
+        <div @click="openProductModal" class="size-64 bg-white rounded-full flex justify-center items-center shadow-lg mt-auto relative cursor-pointer">
             <img :class="{'opacity-0 absolute': imgIsLoading, 'opacity-100': !imgIsLoading}" @load="handleImageLoad" loading="lazy" alt="Product Image" :src="props.item.image" class="size-44 object-contain">
             <span v-show="imgIsLoading" class="loading loading-spinner text-rose-500"></span>
             <strong class="text-2xl font-normal mt-auto bg-rose-500 w-48 shadow-lg text-center text-white absolute bottom-0">{{ exchangeStore.userPref ? changePrices(props.item.price) : Math.round(props.item.price) }}/{{ exchangeStore.userPref ? exchangeStore.userPref : 'USD' }}</strong>

@@ -20,7 +20,7 @@ const notImplemented = () => {
 </script>
 
 <template>
-    <div class="h-full flex flex-col justify-center items-center max-sm:py-5">
+    <div class="h-full flex flex-col justify-center py-[120px] items-center max-sm:py-5">
         <section>
             <h1 class="text-6xl mb-5 place-self-start">Register</h1>
             <div class="flex max-sm:flex-col">
@@ -33,7 +33,7 @@ const notImplemented = () => {
                     <button type="submit" class="bg-rose-500 text-white w-full h-10 hover:bg-rose-400 focus:bg-rose-600 active:bg-rose-400 transition-all">Register</button>
                 </form>
                 <div class="divider divider-horizontal max-sm:divider-vertical">OR</div>
-                <div class="flex flex-col gap-y-5 justify-center max-sm:flex-row max-sm:gap-x-5" @click="notImplemented">
+                <div class="flex flex-col gap-y-10 justify-center max-sm:flex-row max-sm:gap-x-10" @click="notImplemented">
                     <FacebookComp class="size-14 hover:scale-110 cursor-pointer transition-all" />
                     <GoogleComp class="size-14 hover:scale-110 cursor-pointer transition-all" />
                     <LinkedinComp class="size-14 scale-110 hover:scale-125 cursor-pointer transition-all" />
