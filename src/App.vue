@@ -97,6 +97,23 @@
       burgerStore.close()
   }
 
+  const categoryPopUp = ref(false)
+  const currencyPopUp = ref(false)
+
+  const toggleCategoryPopUp = () => {
+    if (!categoryPopUp.value && currencyPopUp.value) {
+      currencyPopUp.value = false
+    }
+    categoryPopUp.value = !categoryPopUp.value
+  }
+
+  const toggleCurrencyPopUp = () => {
+    if (categoryPopUp.value && !currencyPopUp.value) {
+      categoryPopUp.value = false
+    }
+    currencyPopUp.value = !currencyPopUp.value
+  }
+
   onMounted(() => {
     categoryStore.fetchAll()
     productStore.fetchAll()
@@ -122,7 +139,7 @@
 
       <RouterLink :to="{ name: 'home' }" class="text-5xl cursor-pointer min-w-max">E-Shop</RouterLink>
 
-      <div :class="['flex justify-between items-center w-full xl:h-full xl:gap-x-5 max-xl:flex-col max-xl:fixed max-xl:w-96 max-xl:h-full max-xl:bg-black max-xl:gap-y-5 max-xl:top-0 transition-all', burgerStore.isOpen ? 'max-xl:right-0 z-[70]' : 'max-xl:-right-96']">
+      <div :class="['flex justify-between items-center w-full xl:h-full xl:gap-x-5 max-xl:flex-col max-xl:fixed max-xl:w-96 max-xl:h-full max-xl:bg-black max-xl:gap-y-5 max-xl:top-0 max-[384px]:w-full transition-all', burgerStore.isOpen ? 'max-xl:right-0 z-[70]' : 'max-xl:-right-96']">
         <div class="flex order-1 grow relative max-xl:order-3">
           <input @input="showSearchResult" v-model="query" class="text-black border-none rounded-ss-3xl w-auto flex grow text-xl rounded-es-3xl focus:ring-0 focus:outline-none pl-5">
           <MagnifyingComp class="size-12 p-3 bg-gray-100 rounded-se-3xl rounded-ee-3xl cursor-pointer"/>
@@ -140,10 +157,10 @@
             </div>
           </RouterLink>
   
-          <button class="group flex justify-center items-center gap-2 h-full w-28 hover:bg-rose-400 transition-all duration-300 relative max-xl:h-12">
+          <button @click="toggleCategoryPopUp" class="group flex justify-center items-center gap-2 h-full w-28 hover:bg-rose-400 transition-all duration-300 relative max-xl:h-12 max-xl:hover:bg-inherit">
             <span class="relative focus:outline-none before:absolute before:bottom-0 before:left-1/2 before:w-0 before:h-[2px] before:bg-white before:-translate-x-1/2 group-hover:before:w-full group-focus:before:w-full group-active:before:w-full before:transition-all before:duration-300">Categories</span>
-            <ChevronComp class="size-5 group-focus:rotate-180 transition-all" />
-            <section class="flex flex-col items-center custom-shadow absolute top-24 right-0 p-3 rounded-md cursor-default gap-y-1 bg-white text-black size-fit min-w-40 scale-0 group-focus:scale-100 transition-all origin-top-right">
+            <ChevronComp :class="['size-5 transition-all', { 'rotate-180': categoryPopUp }]" />
+            <section :class="['flex flex-col items-center custom-shadow absolute top-24 right-0 p-3 rounded-md cursor-default gap-y-1 bg-white text-black size-fit min-w-40 scale-0 transition-all origin-top-right', { 'scale-100': categoryPopUp }]">
               <h3 class="underline text-xl text-rose-500 text-start">Categories</h3>
               <div class="flex flex-col items-center flex-wrap h-full">
                 <span v-for="item in categoryStore.items" :key="item" @click="navigate(item)" class="max-w-max cursor-pointer text-gray-500">{{ item.charAt(0).toUpperCase() + item.slice(1) }}</span>
@@ -151,11 +168,11 @@
             </section>
           </button>
   
-          <button class="group flex justify-center items-center gap-2 h-full w-28 hover:bg-rose-400 transition-all duration-300 relative max-xl:h-12">
+          <button @click="toggleCurrencyPopUp" class="group flex justify-center items-center gap-2 h-full w-28 hover:bg-rose-400 transition-all duration-300 relative max-xl:h-12 max-xl:hover:bg-inherit">
             <span class="relative focus:outline-none before:absolute before:bottom-0 before:left-1/2 before:w-0 before:h-[2px] before:bg-white before:-translate-x-1/2 group-hover:before:w-full group-focus:before:w-full group-active:before:w-full before:transition-all before:duration-300">{{ exchangeStore.userPref ? exchangeStore.userPref : 'Currency' }}</span>
-            <ChevronComp class="size-5 group-focus:rotate-180 transition-all" />
+            <ChevronComp :class="['size-5 transition-all', { 'rotate-180': currencyPopUp }]" />
             
-            <section class="custom-shadow absolute top-24 right-0 p-3 rounded-md cursor-default gap-y-1 bg-white text-black h-[500px] w-[800px] scale-0 group-focus:scale-100 transition-all origin-top-right max-lg:w-screen max-lg:-right-32 max-lg:z-10">
+            <section :class="['custom-shadow absolute top-24 right-0 p-3 rounded-md cursor-default gap-y-1 bg-white text-black h-[500px] w-[800px] scale-0 transition-all origin-top-right max-lg:w-screen max-lg:-right-32 max-xl:z-10', { 'scale-100': currencyPopUp }]">
               <h3 class="underline text-xl text-rose-500 text-start">Currencies</h3>
               <div class="flex flex-col flex-wrap h-full">
                 <span @click="selectedCurrency(code)" v-for="(name, code) in exchangeStore.currencies" :key="code" class="max-w-max cursor-pointer text-gray-500">{{ code }}</span>

@@ -42,14 +42,14 @@ const redirectAfterLogin = () => {
 <template>
     <div class="h-full flex flex-col justify-center items-center py-32 max-sm:py-5">
         <span v-if="userAuthStore.error" class="text-rose-500">{{ userAuthStore.error }}</span>
-        <section>
+        <section class="max-[415px]:w-full">
             <h1 class="text-6xl mb-5 place-self-start">Sign in</h1>
             <div class="flex flex-col">
-                <form @submit.prevent="signIn" class="flex flex-col justify-center space-y-3">
+                <form @submit.prevent="signIn" class="flex flex-col justify-center max-[415px]:items-center space-y-3">
                     <AuthInput v-model="username" type="text" input-id="username" label-for="username" label-text="Username" min-length="3" auto-complete="username" max-length="15"/>
                     <AuthInput v-model="password" type="password" input-id="password" label-for="password" label-text="Password" min-length="6" auto-complete="password"/>
                     <span>Don't have an account? <RouterLink :to="{ name: 'register'}" class="underline text-rose-500">Register</RouterLink></span>
-                    <button type="submit" class="bg-rose-500 text-white w-full h-10 hover:bg-rose-400 focus:bg-rose-600 active:bg-rose-400 transition-all">
+                    <button type="submit" class="bg-rose-500 text-white w-full h-10 hover:bg-rose-400 focus:bg-rose-600 active:bg-rose-400 max-[415px]:w-11/12 transition-all">
                         <span v-if="!userAuthStore.loading">Sign in</span>
                         <span v-else class="loading loading-spinner text-black"></span>
                     </button>

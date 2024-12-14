@@ -108,11 +108,18 @@ const handleQuantity = (action, id) => {
                             </div>
                         </td>
                     </tr>
-                    <tr class="border-black">
+
+                    <tr class="border-black max-[415px]:hidden">
                         <th class="w-1/4 bg-gray-200">Price</th>
                         <td class="font-bold text-center">{{ changePrices(product.product.price) }}</td>
                     </tr>
-                    <tr class="border-black">
+
+                    <tr class="bg-gray-200 border-t-black min-[415px]:hidden text-center">
+                        <th>Price</th>
+                    </tr>
+                    <tr class="font-bold text-center min-[415px]:hidden border-b-black max-[415px]:h-9">{{ changePrices(product.product.price) }}</tr>
+
+                    <tr class="border-black max-[415px]:hidden">
                         <th class="w-1/4 bg-gray-200">Quantity</th>
                         <td class="font-bold">
                             <div class="flex gap-x-5 items-center">
@@ -126,10 +133,32 @@ const handleQuantity = (action, id) => {
                             </div>
                         </td>
                     </tr>
-                    <tr class="border-black">
+
+                    <tr class="bg-gray-200 border-t-black min-[415px]:hidden text-center">
+                        <th>Quantity</th>
+                    </tr>
+                    <tr class="font-bold min-[415px]:hidden border-b-black max-[415px]:h-9">
+                        <div class="flex gap-x-5 items-center justify-center">
+                            <div @click="handleQuantity('-', product.product.id)" class="rounded-full size-8 flex justify-center items-center cursor-pointer">
+                                <span class="text-2xl">-</span>
+                            </div>
+                            <span>{{ product.quantity }}</span>
+                            <div @click="handleQuantity('+', product.product.id)" class="rounded-full size-8 flex justify-center items-center cursor-pointer">
+                                <span class="text-2xl">+</span>
+                            </div>
+                        </div>
+                    </tr>
+
+                    <tr class="border-black max-[415px]:hidden">
                         <th class="w-1/4 bg-gray-200">Total Price</th>
                         <td class="font-bold text-center">{{ changePrices(product.product.price * product.quantity) }}</td>
                     </tr>
+
+                    <tr class="bg-gray-200 border-t-black min-[415px]:hidden text-center">
+                        <th>Total Price</th>
+                    </tr>
+                    <tr class="font-bold text-center min-[415px]:hidden border-b-black max-[415px]:h-9">{{ changePrices(product.product.price * product.quantity) }}</tr>
+
                 </template>
             </tbody>
         </table>

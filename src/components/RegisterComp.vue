@@ -21,16 +21,16 @@ const notImplemented = () => {
 
 <template>
     <div class="h-full flex flex-col justify-center py-[120px] items-center max-sm:py-5">
-        <section>
+        <section class="max-[415px]:w-full">
             <h1 class="text-6xl mb-5 place-self-start">Register</h1>
             <div class="flex max-sm:flex-col">
-                <form class="flex flex-col justify-center space-y-3" @submit.prevent="notImplemented">
+                <form class="flex flex-col justify-center space-y-3 max-[415px]:items-center" @submit.prevent="notImplemented">
                     <AuthInput v-model="username" type="text" input-id="username" label-for="username" label-text="Username" min-length="3" auto-complete="username" max-length="15"/>
                     <AuthInput v-model="email" type="email" input-id="email" label-for="email" label-text="Email" min-length="3"/>
                     <AuthInput v-model="password" type="password" input-id="password" label-for="password" label-text="Password" min-length="6" auto-complete="password"/>
                     <AuthInput v-model="confirm_password" type="password" input-id="confirm" label-for="confirm" label-text="Confirm Password" min-length="6" auto-complete="off"/>
                     <span>Already have an account? <RouterLink :to="{ name: 'sign-in'}" class="underline text-rose-500">Sign in</RouterLink></span>
-                    <button type="submit" class="bg-rose-500 text-white w-full h-10 hover:bg-rose-400 focus:bg-rose-600 active:bg-rose-400 transition-all">Register</button>
+                    <button type="submit" class="bg-rose-500 text-white w-full h-10 hover:bg-rose-400 focus:bg-rose-600 active:bg-rose-400 max-[415px]:w-11/12 transition-all">Register</button>
                 </form>
                 <div class="divider divider-horizontal max-sm:divider-vertical">OR</div>
                 <div class="flex flex-col gap-y-10 justify-center max-sm:flex-row max-sm:gap-x-10" @click="notImplemented">

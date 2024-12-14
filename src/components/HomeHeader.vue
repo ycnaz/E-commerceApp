@@ -16,8 +16,8 @@ const isImgLoading = ref(true)
 <template>
     <section class="bg-rose-500 h-[600px] w-full relative flex justify-center">
         <div class="text-white w-1/2 h-full flex flex-col justify-center z-10 max-xl:w-min">
-            <strong class="text-6xl text-white min-w-max max-md:text-5xl max-sm:text-4xl">Present your products<br> to millions</strong>
-            <span class="text-xl">And buy the best products from all over the world</span>
+            <strong class="text-6xl text-white min-w-max max-md:text-5xl max-sm:text-4xl max-[380px]:text-3xl">Present your products<br> to millions</strong>
+            <span class="text-xl max-[380px]:text-lg">And buy the best products from all over the world</span>
         </div>
         <img :class="{'opacity-0 absolute': isImgLoading, 'opacity-100': !isImgLoading}" class="max-xl:absolute max-xl:size-[600px] max-xl:bottom-0 max-xl:blur max-sm:hidden" @load="isImgLoading = false" loading="lazy" alt="Header Image" src="../assets/images/shoe-bg.png">
         <span v-if="isImgLoading" class="loading loading-spinner text-black max-sm:hidden"></span>
