@@ -72,6 +72,10 @@ const removeProduct = (id) => {
     toast.success('Item removed from your cart')
 }
 
+const handlePurchase = () => {
+    toast.error("Purchase not implemented!")
+}
+
 onMounted(async () => {
     await userAuthStore.fetchUserId()
     await userAuthStore.fetchCart()
@@ -88,32 +92,32 @@ onMounted(async () => {
         <div class="flex flex-col w-96 max-lg:flex-row max-lg:w-full max-lg:h-64 max-sm:flex-col max-sm:w-full max-sm:min-h-min">
             <div class="flex flex-col h-1/2 max-h-96 items-start justify-between max-lg:h-full max-lg:w-1/2 max-sm:w-full">
                 <div>
-                    <h2 class="text-2xl font-semibold">Coupon Code</h2>
-                    <p class="mt-3">Enter your coupon code to get a discount</p>
+                    <h2 class="text-2xl font-semibold tracking-tighter">Coupon Code</h2>
+                    <p class="mt-3 tracking-wide">Enter your coupon code to get a discount</p>
                 </div>
                 <div class="w-full">
                     <input v-model="userCoupon" class="mb-3 w-full rounded-3xl bg-gray-200 border-none focus:ring-0" type="text" placeholder="Coupon Code...">
-                    <button @click="handleCoupon" class="w-full bg-black text-white py-3 rounded-3xl hover:ring hover:ring-black hover:ring-offset-2 transition-all">Apply</button>
+                    <button @click="handleCoupon" class="w-full bg-black text-white py-2 tracking-widest font-medium text-lg rounded-3xl hover:ring hover:ring-black hover:ring-offset-2 transition-all">APPLY</button>
                 </div>
             </div>
             <div class="w-full divider max-lg:divider-horizontal max-sm:divider-vertical"></div>
             <section class="flex flex-col h-1/2 max-h-96 bg-amber-300 p-3 rounded-lg max-lg:h-full max-lg:w-1/2 max-sm:w-full">
-                <h2 class="text-2xl font-semibold mb-3">Cart Total</h2>
+                <h2 class="text-2xl font-semibold mb-3 tracking-tight">Cart Total</h2>
                 <div class="flex justify-between">
-                    <span>Items:</span>
+                    <span class="tracking-wide">Items:</span>
                     <span class="text-red-500">{{ changePrices(cartTotalPrice) }}</span>
                 </div>
                 <div class="flex justify-between">
-                    <span>Coupon:</span>
+                    <span class="tracking-wide">Coupon:</span>
                     <span class="text-emerald-500">{{ changePrices(couponAmount) }}</span>
                 </div>
                 <div class="flex justify-between font-semibold text-xl">
-                    <span>Total:</span>
+                    <span class="tracking-wide">Total:</span>
                     <span>{{ changePrices(couponUsed ? cartTotalPrice - couponAmount : cartTotalPrice) }}</span>
                 </div>
                 <div class="flex flex-col gap-y-2 mt-auto">
                     <button v-if="couponUsed" @click="removeCoupon" class="w-full bg-white text-rose-500 py-3 rounded-3xl hover:bg-slate-100 transition-all">Remove Coupon</button>
-                    <button class="w-full bg-white font-bold text-black py-3 rounded-3xl hover:bg-slate-100 transition-all">Purchase</button>
+                    <button @click="handlePurchase" class="w-full bg-white font-bold text-black py-3 rounded-3xl tracking-widest hover:bg-slate-100 transition-all">PURCHASE</button>
                 </div>
             </section>
         </div>

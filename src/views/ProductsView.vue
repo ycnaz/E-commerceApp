@@ -24,8 +24,8 @@ onMounted(() => productStore.fetchAll())
 
 <template>
     <figure class="pb-24 pt-10 px-5 flex flex-col gap-y-5">
-        <RouterLink :to="{ name: 'sell' }" class="bg-gray-800 h-16 rounded-lg flex justify-center items-center text-white hover:bg-gray-700 active:bg-gray-600 focus:bg-gray-700 focus:ring-0 transition-all">Sell Your Product</RouterLink>
-        <figcaption class="text-5xl pl-10">{{ props.category.charAt(0).toUpperCase() + props.category.slice(1) }}</figcaption>
+        <RouterLink :to="{ name: 'sell' }" class="bg-gray-800 h-16 rounded-lg flex justify-center items-center text-white tracking-widest text-lg hover:bg-gray-700 active:bg-gray-600 focus:bg-gray-700 focus:ring-0 transition-all">SELL YOUR PRODUCT</RouterLink>
+        <figcaption class="text-5xl pl-10 font-extralight tracking-wider">{{ props.category.toUpperCase() }}</figcaption>
         <ul v-if="filteredItems.length !== 0 && !productStore.loading" class="grid grid-cols-[repeat(auto-fill,_minmax(288px,_1fr))] gap-5">
             <ItemCard v-for="item in filteredItems" :key="item.id" :item />
         </ul>

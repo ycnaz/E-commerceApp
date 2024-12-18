@@ -137,7 +137,7 @@
     <div v-if="burgerStore.isOpen" class="fixed top-0 h-screen w-screen bg-black z-[60] opacity-60"></div>
     <nav class="flex h-full items-center px-5 gap-x-5 max-xl:justify-between">
 
-      <RouterLink :to="{ name: 'home' }" class="text-5xl cursor-pointer min-w-max">E-Shop</RouterLink>
+      <RouterLink :to="{ name: 'home' }" class="text-5xl cursor-pointer min-w-max font-bold tracking-tighter">E-Shop</RouterLink>
 
       <div :class="['flex justify-between items-center w-full xl:h-full xl:gap-x-5 max-xl:flex-col max-xl:fixed max-xl:w-96 max-xl:h-full max-xl:bg-black max-xl:gap-y-5 max-xl:top-0 max-[384px]:w-full transition-all', burgerStore.isOpen ? 'max-xl:right-0 z-[70]' : 'max-xl:-right-96']">
         <div class="flex order-1 grow relative max-xl:order-3">
@@ -153,12 +153,12 @@
   
           <RouterLink v-for="link in navLinks" :class="{ 'active': isActive(link.url) }" :key="link.id" :to="link.url" class="group flex items-center justify-center hover:bg-rose-400 focus:outline-none w-28 h-full relative transition-all duration-300 max-xl:h-12">
             <div class="max-w-max relative">
-              <span class="focus:outline-none before:absolute before:bottom-0 before:left-1/2 before:w-0 before:h-[2px] before:bg-white before:-translate-x-1/2 group-hover:before:w-full group-focus:before:w-full group-active:before:w-full before:transition-all before:duration-300">{{ link.name }}</span>
+              <span class="tracking-wide focus:outline-none before:absolute before:bottom-0 before:left-1/2 before:w-0 before:h-[2px] before:bg-white before:-translate-x-1/2 group-hover:before:w-full group-focus:before:w-full group-active:before:w-full before:transition-all before:duration-300">{{ link.name }}</span>
             </div>
           </RouterLink>
   
           <button @click="toggleCategoryPopUp" class="group flex justify-center items-center gap-2 h-full w-28 hover:bg-rose-400 transition-all duration-300 relative max-xl:h-12 max-xl:hover:bg-inherit">
-            <span class="relative focus:outline-none before:absolute before:bottom-0 before:left-1/2 before:w-0 before:h-[2px] before:bg-white before:-translate-x-1/2 group-hover:before:w-full group-focus:before:w-full group-active:before:w-full before:transition-all before:duration-300">Categories</span>
+            <span class="relative tracking-wide focus:outline-none before:absolute before:bottom-0 before:left-1/2 before:w-0 before:h-[2px] before:bg-white before:-translate-x-1/2 group-hover:before:w-full group-focus:before:w-full group-active:before:w-full before:transition-all before:duration-300">Categories</span>
             <ChevronComp :class="['size-5 transition-all', { 'rotate-180': categoryPopUp }]" />
             <section :class="['flex flex-col items-center custom-shadow absolute top-24 right-0 p-3 rounded-md cursor-default gap-y-1 bg-white text-black size-fit min-w-40 scale-0 transition-all origin-top-right', { 'scale-100': categoryPopUp }]">
               <h3 class="underline text-xl text-rose-500 text-start">Categories</h3>
@@ -169,7 +169,7 @@
           </button>
   
           <button @click="toggleCurrencyPopUp" class="group flex justify-center items-center gap-2 h-full w-28 hover:bg-rose-400 transition-all duration-300 relative max-xl:h-12 max-xl:hover:bg-inherit">
-            <span class="relative focus:outline-none before:absolute before:bottom-0 before:left-1/2 before:w-0 before:h-[2px] before:bg-white before:-translate-x-1/2 group-hover:before:w-full group-focus:before:w-full group-active:before:w-full before:transition-all before:duration-300">{{ exchangeStore.userPref ? exchangeStore.userPref : 'Currency' }}</span>
+            <span class="relative tracking-wide focus:outline-none before:absolute before:bottom-0 before:left-1/2 before:w-0 before:h-[2px] before:bg-white before:-translate-x-1/2 group-hover:before:w-full group-focus:before:w-full group-active:before:w-full before:transition-all before:duration-300">{{ exchangeStore.userPref ? exchangeStore.userPref : 'Currency' }}</span>
             <ChevronComp :class="['size-5 transition-all', { 'rotate-180': currencyPopUp }]" />
             
             <section :class="['custom-shadow absolute top-24 right-0 p-3 rounded-md cursor-default gap-y-1 bg-white text-black h-[500px] w-[800px] scale-0 transition-all origin-top-right max-lg:w-screen max-lg:-right-32 max-xl:z-10', { 'scale-100': currencyPopUp }]">

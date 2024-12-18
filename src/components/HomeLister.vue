@@ -26,7 +26,7 @@ import ItemCard from './ItemCard.vue';
         <figure class="w-full h-full flex flex-col items-center">
             <div class="flex flex-col gap-y-5 min-w-[74%] max-w-full h-full">
                 <div class="flex max-xl:px-5">
-                    <figcaption class="self-start text-3xl font-medium min-w-max max-[350px]:text-2xl">{{ props.title }}</figcaption>
+                    <figcaption class="self-start text-3xl min-w-max max-[350px]:text-2xl font-light tracking-wide">{{ props.title.toUpperCase() }}</figcaption>
                     <RouterLink :to="{ name: 'products', params: { category: props.category }}" class="underline ml-auto place-self-end cursor-pointer hover:text-gray-500 focus:text-gray-500 focus:outline-none min-w-max">See all</RouterLink>
                 </div>
                 <div class="horizontal-scroll-container flex justify-center items-center h-full w-full overflow-x-auto scroll-smooth overflow-y-hidden scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-gray-500">

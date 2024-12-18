@@ -47,7 +47,7 @@ const handleQuantity = (action, id) => {
 
 <template>
     <section class="flex flex-col grow">
-        <h1 class="text-4xl font-semibold mb-3">Shopping Cart</h1>
+        <h1 class="text-4xl mb-3 tracking-wider font-light">SHOPPING CART</h1>
         <table class="table table-pin-rows rounded-none bg-gray-200">
             <thead class="max-md:hidden">
                 <tr class="border-bottom border-black bg-gray-200">

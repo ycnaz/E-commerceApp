@@ -65,9 +65,9 @@ const getProductWithId = (id) => {
 }
 
 const buttonTitle = computed(() => {
-    if (!editing.value && !preview.value) return 'Preview'
-    else if (editing.value && !preview.value) return 'Update'
-    else return 'Publish' 
+    if (!editing.value && !preview.value) return 'PREVIEW'
+    else if (editing.value && !preview.value) return 'UPDATE'
+    else return 'PUBLISH' 
 })
 
 onMounted(() => {
@@ -78,16 +78,16 @@ onMounted(() => {
 <template>
     <div class="h-full flex gap-x-20 justify-center items-center max-xl:flex-col max-xl:pb-5">
         <form @submit.prevent="handleProduct" class="flex flex-col text-black gap-y-5 py-5 max-[430px]:w-full max-[430px]:px-5">
-            <h2 class="text-5xl font-semibold border-b border-b-black w-full">Sell</h2>
+            <h2 class="text-6xl font-light border-b border-b-black w-full tracking-wider">SELL</h2>
             <div class="flex gap-x-10 max-md:flex-col">
                 <div class="flex flex-col">
-                    <label for="title">Title</label>
+                    <label for="title" class="tracking-wide">Title</label>
                     <input v-model="productTitle" class="w-96 max-[430px]:w-full" type="text" id="title" aria-label="Product Title" required>
             
-                    <label for="price">Price</label>
+                    <label for="price" class="tracking-wide">Price</label>
                     <input v-model="productPrice" class="w-96 max-[430px]:w-full" type="number" min="1" max="100000000" step="0.01" id="price" aria-label="Product Price" required>
             
-                    <label for="category">Category</label>
+                    <label for="category" class="tracking-wide">Category</label>
                     <select v-model="productCategory" class="w-96 max-[430px]:w-full" id="category" aria-label="Product Category" required>
                         <option disabled value="">Choose...</option>
                         <option v-for="category in categoryStore.items" :key="category" :value="category">{{ category.charAt(0).toUpperCase() + category.slice(1) }}</option>
@@ -95,14 +95,14 @@ onMounted(() => {
                 </div>
 
                 <div class="flex flex-col">
-                    <label for="description">Description</label>
+                    <label for="description" class="tracking-wide">Description</label>
                     <textarea v-model="productDescription" class="min-h-10 max-h-[115px]" id="description" aria-label="Product Description" maxlength="500" required></textarea>
             
-                    <label for="image">Image</label>
+                    <label for="image" class="tracking-wide">Image</label>
                     <input @change="handleImageUpload" type="file" id="image" accept="image/*" aria-label="Product Image" :required="!editing">
                 </div>
             </div>
-            <button class="bg-rose-500 h-10 text-white hover:bg-rose-400 focus:bg-rose-400 active:bg-rose-600 transition-all">{{ buttonTitle }}</button>
+            <button class="bg-rose-500 h-10 text-white tracking-wider text-lg hover:bg-rose-400 focus:bg-rose-400 active:bg-rose-600 transition-all">{{ buttonTitle }}</button>
         </form>
 
         <ItemCard v-if="preview" :item :disabled="true" />

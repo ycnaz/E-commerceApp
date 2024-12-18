@@ -40,7 +40,7 @@ function simulateProgress() {
 </script>
 
 <template>
-    <div class="fixed inset-0 w-full h-1 z-50">
+    <div class="fixed inset-0 w-full h-[3px] z-50">
         <div class="h-full bg-emerald-500 custom-transition" :style="{ width: `${progress}%`, opacity: props.loading ? 1 : 0 }">
         </div>
     </div>

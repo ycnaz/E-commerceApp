@@ -27,6 +27,6 @@ const truncatedTitle = (title) => {
           <img :class="{'opacity-0 absolute': imgIsLoading, 'opacity-100': !imgIsLoading}" @load="handleImageLoad" class="object-contain size-full" loading="lazy" alt="Product Image in Search" :src="props.product.image">
           <span v-show="imgIsLoading" class="loading loading-spinner text-rose-500"></span>
         </div>
-        <span>{{ truncatedTitle(props.product.title) }}</span>
+        <span class="tracking-wider font-light">{{ truncatedTitle(props.product.title) }}</span>
     </div>
 </template>

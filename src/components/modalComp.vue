@@ -75,7 +75,7 @@ const submitRating = () => {
         <div v-if="modalStore.isOpen" class="fixed inset-0 size-full z-50 flex justify-center items-center">
             <div class="h-auto w-1/2 bg-rose-500 rounded-xl text-white p-5 relative max-sm:w-11/12">
                 <section class="flex justify-between">
-                    <h5 class="line-clamp-1">{{ modalStore.product.title.toUpperCase() }}</h5>
+                    <h5 class="line-clamp-1 font-semibold text-xl">{{ modalStore.product.title.toUpperCase() }}</h5>
                     <span @click="closeProductModal" class="text-2xl cursor-pointer">&times;</span>
                 </section>
                 <div class="flex flex-col">
@@ -85,18 +85,18 @@ const submitRating = () => {
                     </div>
                     <div class="flex flex-col grow items-center px-5">
                         <div>
-                            <h4 class="font-bold">Description:</h4>
-                            <p>{{ modalStore.product.description }}</p>
+                            <h4 class="font-bold tracking-wide text-lg">Description:</h4>
+                            <p class="tracking-wider leading-relaxed">{{ modalStore.product.description }}</p>
                         </div>
                         <section class="w-full h-full flex flex-col justify-center items-center">
-                            <h6>Quantity:</h6>
+                            <h6 class="tracking-wider font-light">Quantity:</h6>
                             <div class="flex w-full gap-x-5 justify-center">
                                 <div @click="handleQuantity('-')" class="flex justify-center items-center size-10 cursor-pointer text-3xl rounded-full hover:bg-rose-400 transition-all">-</div>
                                 <span class=" text-3xl">{{ productQuantity }}</span>
                                 <div @click="handleQuantity('+')" class="flex justify-center items-center size-10 cursor-pointer text-3xl rounded-full hover:bg-rose-400 transition-all">+</div>
                             </div>
                         </section>
-                        <span>Rating: {{ modalStore.product.rating?.rate ? modalStore.product.rating.rate.toFixed(1) : '0' }}/5 ({{ modalStore.product.rating?.count ? modalStore.product.rating.count : '0' }})</span>
+                        <span class="tracking-wider font-light">Rating: {{ modalStore.product.rating?.rate ? modalStore.product.rating.rate.toFixed(1) : '0' }}/5 ({{ modalStore.product.rating?.count ? modalStore.product.rating.count : '0' }})</span>
                         <div class="rating">
                             <input type="radio" v-model="selectedRating" :value="1" name="rating-1" class="mask mask-star-2 text-amber-600" />
                             <input type="radio" v-model="selectedRating" :value="2" name="rating-1" class="mask mask-star-2 text-amber-600" checked="checked" />
