@@ -1,1 +1,0 @@
-import{o as e,c as o,a as t}from"./index-DESkFLJa.js";const n={xmlns:"http://www.w3.org/2000/svg",width:"800",height:"800",fill:"none",viewBox:"0 0 24 24"},r=t("path",{stroke:"#FFF","stroke-linecap":"round","stroke-linejoin":"round","stroke-width":"2",d:"m6 9 6 6 6-6"},null,-1),s=[r];function c(i,a){return e(),o("svg",n,[...s])}const h={render:c};export{h as default,c as render};
